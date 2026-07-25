@@ -14,7 +14,7 @@ export default function Hero() {
   return (
     <section
   id="home"
-  className="relative overflow-hidden bg-navy-900 bg-cover bg-center bg-no-repeat pt-[130px] pb-24 sm:pb-28"
+  className="relative overflow-hidden bg-navy-900 bg-cover bg-center bg-no-repeat pt-[200px] pb-20 sm:pb-28"
   style={{ backgroundImage: `url(${bgImage})` }}
 >
       {/* ambient mesh */}
