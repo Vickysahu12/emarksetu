@@ -33,20 +33,19 @@ export default function About() {
           <Eyebrow>About Us</Eyebrow>
 
           <h2 className="mt-5 font-display text-3xl font-bold text-navy-900 sm:text-4xl">
-            eMark <span className="text-blue-600">Setu</span>
+            Who is <span className="text-blue-600">eMark Setu?</span>
           </h2>
 
           <p className="mt-5 max-w-lg text-[15px] leading-relaxed text-slate-500">
-            We're an ecommerce marketing company that builds, manages,
-            operates, fulfils and advertises your online, ready-to-go turnkey
-            store. Our agency delivers full service from strategy to shipping,
-            entirely in-house — no third parties, no hand-offs, no guesswork.
+            At eMark Setu, an ecommerce marketing company, we build, manage,
+            operate, fulfil and advertise your online, ready-to-go turnkey
+            ecommerce store. Our agency provides full service from start to
+            finish — all in-house.
           </p>
 
           <p className="mt-4 max-w-lg text-[15px] leading-relaxed text-slate-500">
-            Founded in Surat in 2021, we approach every brand with fresh eyes
-            and a customised roadmap, so the strategy fits your business —
-            not the other way around.
+            No third parties, no hand-offs, no guesswork — just one dedicated
+            team taking your brand from strategy to shipping.
           </p>
 
           <GhostButton href="#services" className="mt-7 text-blue-600">

@@ -22,8 +22,8 @@ import hero2 from "../assets/image/hero2.webp";
 const cards = [
   {
     icon: FiZap,
-    title: "We complete creatives to boost your business online",
-    body: "Sales and branding are just part of the story. We work to understand your ecommerce and marketing goals, then use that knowledge to refine your website and craft creatives that get real, measurable results.",
+    title: "Complete creatives to boost your bottom line",
+    body: "Sales and branding are just part of the story. At eMark Setu we work to understand your ecommerce and marketing goals. Then that knowledge is used to refine your website and craft creatives that get real, measurable results.",
     process: [
       {
         step: "Discovery Call",
@@ -46,7 +46,7 @@ const cards = [
   {
     icon: FiLayers,
     title: "We understand core business principles, not just marketing acronyms",
-    body: "We continually test, track and optimise your ad spend for maximum profitability on your ecommerce brand — which basically just means we hate wasting money.",
+    body: "We continually test, track and optimise your ad spend for maximum profitability on our clients' ecommerce brands. Which basically just means we hate wasting money.",
     process: [
       {
         step: "Audit Your Spend",
@@ -68,8 +68,8 @@ const cards = [
   },
   {
     icon: FiAward,
-    title: "We are the top digital ecommerce marketing company",
-    body: "We're the top choice for ecommerce and done-for-you brand building and Facebook ads. But it's our done-for-you methods that set us apart from the rest of the field.",
+    title: "We're the top digital ecommerce marketing company",
+    body: "We're the top choice for ecommerce and done-for-you brand building and Facebook ads. We're so much more than that too — but it's our done-for-you methods that set us apart from our competitors.",
     process: [
       {
         step: "Brand Foundation",
@@ -91,8 +91,8 @@ const cards = [
   },
   {
     icon: FiTrendingDown,
-    title: "We help you cut costs while you climb the search results",
-    body: "Sales and branding are just part of the story. We work to understand your ecommerce and marketing goals, then refine your website and craft creatives that get real, measurable results.",
+    title: "We help you cut costs while you climb to the top of the search pile",
+    body: "Sales and branding are just part of the story. At eMark Setu we work to understand your ecommerce and marketing goals. Then that knowledge is used to refine your website and craft creatives that get real, measurable results.",
     process: [
       {
         step: "Technical SEO Audit",
@@ -228,19 +228,25 @@ export default function WhatWeDo() {
 
             <p className="mt-5 max-w-lg text-[15px] leading-relaxed text-slate-500">
               We're passionate about helping brands find their creative voice.
-              Our one-stop ecommerce marketing company helps clients thrive in
-              a changing digital world by leveraging their unique strengths to
-              build a customised roadmap to success.
+              Our one-stop branding company aims to help our clients thrive in
+              a changing omni-channel world and leverage their unique
+              strengths to build a personalised roadmap to success. We're
+              here to make your life easier — talk to us about how we can
+              help.
             </p>
 
             <p className="mt-4 max-w-lg text-[15px] leading-relaxed text-slate-500">
-              Think of our team as an extension of your marketing department —
-              dedicated to growing your business, whether you're an established
-              brand or a young startup finding its footing.
+              Think of us as an extension of your marketing department. Each
+              member of our ecommerce marketing team is dedicated to helping
+              you grow your business, whether you're an established business
+              or a young startup. Our combined knowledge, expertise and
+              experience across all aspects of marketing will help you attract
+              new business online and convert visitors into loyal customers —
+              giving your business a distinct edge over your competitors.
             </p>
 
             <GhostButton href="#services" className="mt-7 text-blue-600">
-              Explore Services
+              Our Services
             </GhostButton>
           </Reveal>
 

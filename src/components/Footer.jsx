@@ -39,7 +39,7 @@ export default function Footer() {
               scheduling a call directly with them.
             </p>
             <div className="relative mt-7 flex justify-center">
-              <PrimaryButton href="mailto:info@emarksetu.com">
+              <PrimaryButton href="#contact">
                 Get Started
               </PrimaryButton>
             </div>
@@ -110,8 +110,8 @@ export default function Footer() {
               </li>
               <li className="flex items-start gap-2.5 text-[13.5px] text-slate-400">
                 <FiMapPin className="mt-0.5 flex-none text-blue-400" size={14} />
-                7007, Billago Lace Textile Market, near Rughnath Mall, Opp. Itwa,
-                Shaiyan Avenue, Brts Road, Sitanagar, Surat, 395010
+                7007, Bellagio Lace Textile Market, near RajMahal Mall, Opp. IFM,
+                Shagun Avenue, BRTS Road, Sitanagar, Surat, 395010
               </li>
             </ul>
           </div>
