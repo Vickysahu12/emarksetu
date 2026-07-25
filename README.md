@@ -1,55 +1,49 @@
-# eMark Setu — Website Redesign (Demo)
+# eMark Setu — Ecommerce Marketing Agency Website
 
-Stack: **React + Vite + Tailwind CSS v4 + Framer Motion + react-icons**
+A modern, responsive marketing website for **eMark Setu**, a full-service
+ecommerce marketing agency. Built with React, Tailwind CSS and Framer Motion.
 
-## Run it locally
+## ✨ Features
+
+- Fully responsive design (mobile → desktop)
+- Smooth scroll-reveal and hover micro-interactions
+- Auto-scrolling marquee sections for testimonials and case studies
+- Animated stat counters
+- Interactive service cards with a "Learn More" process modal
+- Accordion-based FAQ section
+- Tiered pricing section
+- Optimized, lazy-loading friendly image assets (WebP)
+
+## 🛠️ Tech Stack
+
+- **React** — UI library
+- **Tailwind CSS** — utility-first styling
+- **Framer Motion** — animations and transitions
+- **React Icons** — icon set (Feather Icons)
+
+## 📄 Sections
+
+Hero → About → What We Do → Why Choose Us → Case Studies → Pricing →
+Testimonials → FAQ → Insights → Footer
+
+## 🚀 Getting Started
 
 ```bash
+# install dependencies
 npm install
+
+# run the dev server
 npm run dev
-```
 
-Open the URL Vite prints (usually http://localhost:5173).
-
-## Build for production
-
-```bash
+# build for production
 npm run build
-npm run preview   # serve the production build locally to double-check
 ```
 
-The production files land in `dist/` — upload that folder to any static
-host (Vercel, Netlify, Hostinger, cPanel, etc.) to go live.
+## 📦 Deployment
 
-## What's inside
+Build output is generated in the `dist/` folder and can be deployed to any
+static hosting provider (Vercel, Netlify, etc.).
 
-- `src/components/Navbar.jsx` — sticky nav, scroll-aware background, mobile menu
-- `src/components/Hero.jsx` — headline, animated stat chips, signature growth-line graphic
-- `src/components/About.jsx` — agency intro + mini dashboard visual
-- `src/components/WhatWeDo.jsx` — services copy + 4 differentiator cards
-- `src/components/WhyChooseUs.jsx` — animated counters, 4 trust points, dark CTA card
-- `src/components/Testimonials.jsx` — client quotes carousel (3 up, arrows + dots)
-- `src/components/Insights.jsx` — blog/insights teaser grid
-- `src/components/Footer.jsx` — CTA banner, links, contact, socials
-- `src/components/GrowthLine.jsx` — the recurring "growth trajectory" signature graphic
-- `src/components/ui.jsx` — shared Button/Container/Reveal primitives
+## 📬 Contact
 
-## Design notes for the client walkthrough
-
-- Palette: deep navy (#0A1A3F) + electric blue (#2F6FEB) + gold accent
-  (#F5A623), matching the "build, scale, grow" brand story.
-- Type: Space Grotesk for headings, Inter for body.
-- The animated line that appears in the hero, the "store performance" card,
-  and the dark CTA card is the same signature motif — one continuous growth
-  curve running through the page.
-- Everything scroll-reveals with Framer Motion, respects
-  prefers-reduced-motion, and has visible keyboard focus states.
-- Fully responsive: mobile (< 640px), tablet (640-1024px), desktop (1024px+),
-  with a real hamburger menu on mobile.
-
-## Before going live
-
-- Swap in real client testimonials + logos
-- Real blog post links/images (currently icon-based placeholder thumbnails)
-- Confirm phone/email/address are current
-- Wire "Get Started" / "Get Free Consultation" to a real form or booking link
+For business inquiries, reach out via the contact section on the live site.
