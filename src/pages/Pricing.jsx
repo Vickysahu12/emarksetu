@@ -32,9 +32,6 @@ import {
 
 import LogoTile from "../components/LogoTile";
 
-/* =========================================================
-   ACCOUNT MANAGEMENT HELPER
-========================================================= */
 
 const accountMgmt = (name, price, logoKey) => ({
   name: `${name} Account Management Service`,
