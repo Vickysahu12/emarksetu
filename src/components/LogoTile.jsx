@@ -1,5 +1,4 @@
 import logos from "../utils/logos";
-
 const palette = ["bg-blue-600", "bg-gold-500", "bg-emerald-500", "bg-navy-800"];
 
 function colorFor(key) {
