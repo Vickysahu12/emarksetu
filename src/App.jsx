@@ -1,29 +1,26 @@
+import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
-import Hero from "./components/Hero";
-import About from "./components/About";
-import WhatWeDo from "./components/WhatWeDo";
-import WhyChooseUs from "./components/WhyChooseUs";
-import CaseStudies from "./components/CaseStudies";
-import Pricing from "./components/Pricing";
-import Testimonials from "./components/Testimonials";
-import FAQ from "./components/FAQ";
-import Insights from "./components/Insights";
 import Footer from "./components/Footer";
+import Home from "./pages/Home";
+import AboutUs from "./pages/Aboutus";
+import Pricing from "./pages/Pricing";
+import Integrations from "./pages/Integrations";
+import Contact from "./pages/Contact";
+import Auth from "./pages/Auth";
 
 export default function App() {
   return (
     <div className="overflow-x-hidden font-body">
       <Navbar />
       <main>
-        <Hero />
-        <About />
-        <WhatWeDo />
-        <WhyChooseUs />
-        <CaseStudies />
-        <Pricing />
-        <Testimonials />
-        <FAQ />
-        <Insights />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/aboutus" element={<AboutUs />} />
+          <Route path="/pricing" element={<Pricing />} />
+          <Route path="/integrations" element={<Integrations />} />
+          <Route path="/contact-us" element={<Contact />} />
+          <Route path="/Login" element={<Auth/>}/>
+        </Routes>
       </main>
       <Footer />
     </div>

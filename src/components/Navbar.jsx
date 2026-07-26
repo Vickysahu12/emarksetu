@@ -1,20 +1,22 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { FiMenu, FiX } from "react-icons/fi";
+import { href, Link, useLocation } from "react-router-dom";
 import { Container, PrimaryButton } from "./ui";
 import logo from "../assets/image/logo.webp";
 
 const links = [
-  { label: "Home", href: "#home" },
-  { label: "About Us", href: "#about" },
-  { label: "Services", href: "#services" },
-  { label: "Contact", href: "#contact" },
+  { label: "Home", href: "/" },
+  { label: "About Us", href: "/aboutus" },
+  { label: "Services", href: "/pricing" },
+  { label: "Contact", href: "/contact-us" },
+  {label: "integration", href: "/integrations"}
 ];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
-  const [active, setActive] = useState("#home");
+  const { pathname } = useLocation();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -29,6 +31,13 @@ export default function Navbar() {
     return () => (document.body.style.overflow = "");
   }, [open]);
 
+  useEffect(() => {
+    setOpen(false);
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  const isActive = (href) => pathname === href;
+
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
@@ -39,20 +48,19 @@ export default function Navbar() {
     >
       <Container>
         <nav className="flex h-[76px] items-center justify-between">
-          <a href="#home" className="flex items-center gap-2.5">
+          <Link to="/" className="flex items-center gap-2.5">
             <span className="flex h-11 items-center rounded-lg bg-white/95 px-2 py-1.5 shadow-sm ring-1 ring-navy-900/[0.04]">
               <img src={logo} alt="eMark Setu" className="h-7 w-auto object-contain" />
             </span>
-          </a>
+          </Link>
 
           <ul className="hidden items-center gap-9 md:flex">
             {links.map((l) => (
               <li key={l.href}>
-                <a
-                  href={l.href}
-                  onClick={() => setActive(l.href)}
+                <Link
+                  to={l.href}
                   className={`relative text-[14.5px] font-medium transition-colors duration-300 ${
-                    active === l.href
+                    isActive(l.href)
                       ? "text-blue-600"
                       : scrolled || open
                       ? "text-navy-900/80 hover:text-blue-600"
@@ -60,7 +68,7 @@ export default function Navbar() {
                   }`}
                 >
                   {l.label}
-                  {active === l.href && (
+                  {isActive(l.href) && (
                     <motion.span
                       layoutId="nav-underline"
                       className={`absolute -bottom-1.5 left-0 h-[2px] w-full rounded-full ${
@@ -68,14 +76,14 @@ export default function Navbar() {
                       }`}
                     />
                   )}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
 
           <div className="hidden md:block">
-            <PrimaryButton href="#contact" className="!px-5 !py-2.5 !text-[13.5px]">
-              Get Started
+            <PrimaryButton href="/Login" className="!px-5 !py-2.5 !text-[13.5px]">
+              Login/Register
             </PrimaryButton>
           </div>
 
@@ -102,20 +110,18 @@ export default function Navbar() {
           >
             <Container className="flex flex-col gap-1 py-5">
               {links.map((l) => (
-                <a
+                <Link
                   key={l.href}
-                  href={l.href}
-                  onClick={() => {
-                    setActive(l.href);
-                    setOpen(false);
-                  }}
-                  className="rounded-lg px-3 py-3 text-[15px] font-medium text-navy-900 hover:bg-sky-50 hover:text-blue-600"
+                  to={l.href}
+                  className={`rounded-lg px-3 py-3 text-[15px] font-medium hover:bg-sky-50 hover:text-blue-600 ${
+                    isActive(l.href) ? "text-blue-600" : "text-navy-900"
+                  }`}
                 >
                   {l.label}
-                </a>
+                </Link>
               ))}
-              <PrimaryButton href="#contact" className="mt-3 w-full justify-center" onClick={() => setOpen(false)}>
-                Get Started
+              <PrimaryButton href="/Login" className="mt-3 w-full justify-center">
+                Login/Register
               </PrimaryButton>
             </Container>
           </motion.div>

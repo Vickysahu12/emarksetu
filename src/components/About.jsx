@@ -48,7 +48,7 @@ export default function About() {
             team taking your brand from strategy to shipping.
           </p>
 
-          <GhostButton href="#services" className="mt-7 text-blue-600">
+          <GhostButton href="/aboutus" className="mt-7 text-blue-600">
             Read More
           </GhostButton>
         </Reveal>

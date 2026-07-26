@@ -1,19 +1,21 @@
+import { Link } from "react-router-dom";
 import { FiTrendingUp, FiPhone, FiMail, FiMapPin, FiSend } from "react-icons/fi";
 import { FaFacebookF, FaInstagram, FaLinkedinIn, FaTwitter } from "react-icons/fa";
 import { Container, PrimaryButton, Reveal } from "./ui";
 
 const quickLinks = [
-  { label: "Home", href: "#home" },
-  { label: "About Us", href: "#about" },
-  { label: "Services", href: "#services" },
-  { label: "Contact", href: "#contact" },
+  { label: "Home", href: "/" },
+  { label: "About Us", href: "/aboutus" },
+  { label: "Pricing", href: "/pricing" },
+  { label: "Integrations", href: "/integrations" },
+  { label: "Contact", href: "/contact-us" },
 ];
 
 const services = [
-  { label: "Store Management", href: "#services" },
-  { label: "Digital Marketing", href: "#services" },
-  { label: "Brand Building", href: "#services" },
-  { label: "Advertisement", href: "#services" },
+  { label: "Store Management", href: "/pricing" },
+  { label: "Digital Marketing", href: "/pricing" },
+  { label: "Brand Building", href: "/pricing" },
+  { label: "Advertisement", href: "/pricing" },
 ];
 
 const socials = [
@@ -39,9 +41,7 @@ export default function Footer() {
               scheduling a call directly with them.
             </p>
             <div className="relative mt-7 flex justify-center">
-              <PrimaryButton href="#contact">
-                Get Started
-              </PrimaryButton>
+              <PrimaryButton href="/contact-us">Get Started</PrimaryButton>
             </div>
             <FiSend className="pointer-events-none absolute right-10 top-10 hidden text-blue-400/40 sm:block" size={28} />
           </div>
@@ -49,12 +49,12 @@ export default function Footer() {
 
         <div className="grid gap-12 py-16 sm:grid-cols-2 lg:grid-cols-[1.3fr_1fr_1fr_1.1fr]">
           <div>
-            <a href="#home" className="flex items-center gap-2 font-display text-xl font-bold text-white">
+            <Link to="/" className="flex items-center gap-2 font-display text-xl font-bold text-white">
               <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-600 text-white">
                 <FiTrendingUp size={17} />
               </span>
               eMark<span className="text-blue-400">Setu</span>
-            </a>
+            </Link>
             <p className="mt-4 max-w-xs text-[13.5px] leading-relaxed text-slate-400">
               We Build, Manage, Scale &amp; Create Brands — a full-service
               ecommerce marketing company, in-house from start to finish.
@@ -78,9 +78,9 @@ export default function Footer() {
             <ul className="mt-5 space-y-3">
               {quickLinks.map((l) => (
                 <li key={l.label}>
-                  <a href={l.href} className="text-[13.5px] text-slate-400 transition-colors hover:text-blue-400">
+                  <Link to={l.href} className="text-[13.5px] text-slate-400 transition-colors hover:text-blue-400">
                     {l.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -89,11 +89,11 @@ export default function Footer() {
           <div>
             <p className="text-[13px] font-bold uppercase tracking-wide text-white">Services</p>
             <ul className="mt-5 space-y-3">
-              {services.map((l) => (
-                <li key={l.label}>
-                  <a href={l.href} className="text-[13.5px] text-slate-400 transition-colors hover:text-blue-400">
+              {services.map((l, i) => (
+                <li key={i}>
+                  <Link to={l.href} className="text-[13.5px] text-slate-400 transition-colors hover:text-blue-400">
                     {l.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
