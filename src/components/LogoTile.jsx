@@ -7,8 +7,6 @@ function colorFor(key) {
   return palette[Math.abs(hash) % palette.length];
 }
 
-// Renders the real logo if it exists in src/assets/logos/, otherwise
-// falls back to a clean initials badge so the layout never looks broken.
 export default function LogoTile({ logoKey, name, className = "" }) {
   const src = logos[logoKey];
 
