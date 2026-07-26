@@ -8,7 +8,7 @@ import {
 } from "../components/ui";
 
 import bg from "../assets/image/bg-image.webp";
-import logos from "../utils/logos";
+import logos from "../utils/Logos";
 
 const integrations = [
   "amazon-in",
