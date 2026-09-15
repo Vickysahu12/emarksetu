@@ -15,6 +15,7 @@ import {
   FiZap,
 } from "react-icons/fi";
 
+import SEO from "../components/SEO";
 import hero from "../assets/image/bg-image.webp";
 import { Container, Eyebrow, PrimaryButton, Reveal } from "../components/ui";
 

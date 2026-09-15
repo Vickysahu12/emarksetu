@@ -1,4 +1,3 @@
-import SEO from "../components/SEO";
 import Hero from "../components/Hero";
 import About from "../components/About";
 import WhatWeDo from "../components/WhatWeDo";
@@ -8,6 +7,8 @@ import Pricing from "../components/Pricing";
 import Testimonials from "../components/Testimonials";
 import FAQ from "../components/FAQ";
 import Insights from "../components/Insights";
+import SEO from "../components/SEO";
+
 
 export default function Home() {
   return (
