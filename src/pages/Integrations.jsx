@@ -1,4 +1,4 @@
-// src/pages/Integrations.jsx
+import { Helmet } from "react-helmet-async";
 import { FiPhoneCall, FiArrowRight } from "react-icons/fi";
 
 import {
@@ -109,7 +109,6 @@ function displayName(key) {
 }
 
 function IntegrationTile({ logoKey, index }) {
-  // Direct key se search karega, agar nahi mili toh image1, image2 sequence se fetch kar lega
   const src = logos[logoKey] || logos[`image${index + 1}`];
 
   return (
@@ -117,7 +116,7 @@ function IntegrationTile({ logoKey, index }) {
       {src ? (
         <img
           src={src}
-          alt={displayName(logoKey)}
+          alt={`${displayName(logoKey)} E-commerce Integration`}
           loading="lazy"
           decoding="async"
           className="h-full w-full object-contain transition-transform duration-300 group-hover:scale-105"
@@ -132,9 +131,53 @@ function IntegrationTile({ logoKey, index }) {
 }
 
 export default function Integrations() {
+  const pageTitle = "150+ E-commerce Platform Integrations | Multi-Channel Commerce Solutions";
+  const pageDescription = "Connect your business seamlessly with Amazon, Flipkart, Myntra, Shopify, and 150+ global marketplaces, ERPs, and logistics providers.";
+  const canonicalUrl = "https://yourwebsite.com/integrations";
+
+  const schemaData = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": pageTitle,
+    "description": pageDescription,
+    "url": canonicalUrl,
+    "mainEntity": {
+      "@type": "ItemList",
+      "itemListElement": integrations.slice(0, 10).map((item, index) => ({
+        "@type": "ListItem",
+        "position": index + 1,
+        "name": displayName(item)
+      }))
+    }
+  };
+
   return (
     <>
-      {/* ================= HERO ================= */}
+      {/* SEO Meta Tags */}
+      <Helmet>
+        <title>{pageTitle}</title>
+        <meta name="description" content={pageDescription} />
+        <meta name="keywords" content="ecommerce integrations, multi-channel marketplace, Amazon integration, Flipkart integration, Shopify ERP sync" />
+        <link rel="canonical" href={canonicalUrl} />
+
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content={pageTitle} />
+        <meta property="og:description" content={pageDescription} />
+        <meta property="og:url" content={canonicalUrl} />
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={pageTitle} />
+        <meta name="twitter:description" content={pageDescription} />
+
+        {/* Structured Data (JSON-LD) */}
+        <script type="application/ld+json">
+          {JSON.stringify(schemaData)}
+        </script>
+      </Helmet>
+
+      {/* HERO */}
       <section
         className="relative overflow-hidden bg-navy-900 bg-cover bg-center bg-no-repeat pb-24 pt-[145px] sm:pb-28"
         style={{
@@ -200,7 +243,7 @@ export default function Integrations() {
         </Container>
       </section>
 
-      {/* ================= INTRO ================= */}
+      {/* INTRO */}
       <section className="bg-sky-100 py-20 sm:py-24">
         <Container>
           <Reveal className="mx-auto max-w-3xl text-center">
@@ -221,7 +264,7 @@ export default function Integrations() {
         </Container>
       </section>
 
-      {/* ================= INTEGRATIONS ================= */}
+      {/* INTEGRATIONS */}
       <section id="integrations" className="bg-white py-20 sm:py-28">
         <Container>
           <Reveal className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
@@ -247,7 +290,7 @@ export default function Integrations() {
         </Container>
       </section>
 
-      {/* ================= CTA ================= */}
+      {/* CTA */}
       <section className="bg-navy-900 py-20 sm:py-24">
         <Container>
           <Reveal>

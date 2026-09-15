@@ -19,6 +19,7 @@ import {
 } from "react-icons/fa";
 
 import { Container, Eyebrow, Reveal } from "../components/ui";
+import SEO from "../components/SEO.jsx"; // SEO Component Import
 
 const socials = [
   { icon: FaFacebookF, href: "#" },
@@ -179,8 +180,54 @@ export default function Contact() {
     setSubmitted(true);
   };
 
+  // Google Local Business Schema for SEO
+  const localBusinessSchema = {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "name": "eMark Setu",
+    "image": "https://emarksetu.com/logo.webp",
+    "telephone": "+917984075400",
+    "email": "info@emarksetu.com",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Bellagio Lace Textile Market, Sitanagar",
+      "addressLocality": "Surat",
+      "addressRegion": "Gujarat",
+      "postalCode": "395010",
+      "addressCountry": "IN"
+    },
+    "openingHoursSpecification": {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday"
+      ],
+      "opens": "10:00",
+      "closes": "19:00"
+    },
+    "url": "https://emarksetu.com/contact"
+  };
+
   return (
     <>
+      {/* SEO META TAGS */}
+      <SEO
+        title="Contact Us — Get in Touch with eMark Setu"
+        description="Have questions about scaling your e-commerce business? Contact eMark Setu today. Call +91 79840 75400 or visit our Surat office."
+        keywords="Contact eMark Setu, E-commerce Agency Surat Contact, Amazon Consultant Surat Phone Number"
+        canonicalUrl="https://emarksetu.com/contact"
+      />
+
+      {/* SCHEMA MARKUP */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
+      />
+
       <WhatsAppButton />
 
       {/* ================= HERO ================= */}

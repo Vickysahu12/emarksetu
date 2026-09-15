@@ -1,0 +1,14 @@
+# Allow all search engine crawlers to crawl the site
+User-agent: *
+Allow: /
+
+# Disallow sensitive or unnecessary pages from indexing
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /checkout/
+Disallow: /login
+Disallow: /signup
+Disallow: /api/
+
+# Path to the Sitemap
+Sitemap: https://emarksetu.com/sitemap.xml

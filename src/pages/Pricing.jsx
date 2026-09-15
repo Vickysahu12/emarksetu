@@ -1,3 +1,5 @@
+import React, { useState, useMemo } from "react";
+import { Helmet } from "react-helmet-async";
 import {
   FiGlobe,
   FiSmartphone,
@@ -17,11 +19,12 @@ import {
   FiTarget,
   FiUsers,
   FiHeadphones,
-  FiShoppingBag,
+  FiCheckCircle,
+  FiZap,
+  FiXCircle,
 } from "react-icons/fi";
-import hero from "../assets/image/bg-image.webp"
 
-import { FaCheckDouble } from "react-icons/fa";
+import hero from "../assets/image/bg-image.webp";
 
 import {
   Container,
@@ -30,24 +33,67 @@ import {
   Reveal,
 } from "../components/ui";
 
-import LogoTile from "../components/LogoTile";
+const LOGO_URLS = {
+  amazon: "https://cdn.simpleicons.org/amazon/FF9900",
+  flipkart: "https://cdn.simpleicons.org/flipkart/2874F0",
+  myntra: "https://cdn.simpleicons.org/myntra/FF3F6C",
+  nykaa: "https://cdn.simpleicons.org/nykaa/FC2779",
+  ajio: "https://cdn.simpleicons.org/shopify/7AB55C",
+  tatacliq: "https://cdn.simpleicons.org/tata/000000",
+  snapdeal: "https://cdn.simpleicons.org/snapdeal/E40046",
+  meesho: "https://cdn.simpleicons.org/meesho/F43397",
+  shopsy: "https://cdn.simpleicons.org/flipkart/2874F0",
+  shopee: "https://cdn.simpleicons.org/shopee/EE4D2D",
+  paytm: "https://cdn.simpleicons.org/paytm/002E6E",
+  ebay: "https://cdn.simpleicons.org/ebay/E53238",
+  etsy: "https://cdn.simpleicons.org/etsy/F1641E",
+  shopify: "https://cdn.simpleicons.org/shopify/7AB55C",
+};
+
+function LogoTile({ logoKey, name, className }) {
+  const [hasError, setHasError] = useState(false);
+  const logoUrl = LOGO_URLS[logoKey];
+
+  const getInitials = (text) => {
+    if (!text) return "E";
+    return text
+      .split(" ")
+      .map((word) => word[0])
+      .join("")
+      .slice(0, 2)
+      .toUpperCase();
+  };
+
+  if (!logoUrl || hasError) {
+    return (
+      <div className="flex h-full w-full items-center justify-center font-bold text-xs text-blue-600 uppercase tracking-wider bg-blue-50 rounded-lg">
+        {getInitials(name)}
+      </div>
+    );
+  }
+
+  return (
+    <img
+      src={logoUrl}
+      alt={`${name} Logo`}
+      onError={() => setHasError(true)}
+      className={className || "h-full w-full object-contain"}
+      loading="lazy"
+    />
+  );
+}
 
 const accountMgmt = (name, price, logoKey) => ({
-  name: `${name} Account Management Service`,
-  desc: `eMark Setu provides the best ${name} Account Management Service in India. Get your business booming with the Best E-commerce service provider in India.`,
+  name: `${name} Account Management`,
+  desc: `End-to-end operational management, listing optimization, and advertising scale for ${name} in India.`,
   price,
-  unit: "Month",
+  unit: "Mo",
   logoKey,
 });
 
-/* =========================================================
-   CATEGORIES
-========================================================= */
-
 const categories = [
   {
-    title: "Account Management Services",
-
+    title: "Account Management",
     items: [
       accountMgmt("Amazon", "₹5,900", "amazon"),
       accountMgmt("Flipkart", "₹5,900", "flipkart"),
@@ -64,12 +110,10 @@ const categories = [
       accountMgmt("Jio Mart", "₹2,999", "jiomart"),
       accountMgmt("Rekkoz", "₹2,500", "rekkoz"),
       accountMgmt("Limeroad", "₹2,500", "limeroad"),
-
       {
         ...accountMgmt("Amazon Global", "₹5,900", "amazon"),
         name: "Amazon Global Service",
       },
-
       accountMgmt("Ebay", "₹5,900", "ebay"),
       accountMgmt("ETSY", "₹5,900", "etsy"),
       accountMgmt("Mirraw", "₹5,900", "mirraw"),
@@ -77,815 +121,678 @@ const categories = [
       accountMgmt("Sim Sim", "₹2,500", "simsim"),
     ],
   },
-
   {
     title: "Development Services",
-
     items: [
       {
-        name: "Ecommerce Website Development Service",
-        desc: "We have a dedicated team of web developers who ensure you're getting a website that checks all the boxes and provides the best user interface and experience.",
+        name: "Ecommerce Website Development",
+        desc: "Custom high-converting storefronts engineered for fast performance, high UX, and flawless checkout flow.",
         price: "₹29,500",
-        unit: "Month",
+        unit: "Mo",
         icon: FiGlobe,
       },
-
       {
-        name: "Mobile Application Development Service",
-        desc: "We have a dedicated team of app developers who ensure you're getting an application that checks all the boxes and provides the best user interface and experience.",
+        name: "Mobile App Development",
+        desc: "Native Android & iOS applications crafted for hyper-engagement and frictionless consumer purchasing.",
         price: "₹29,500",
-        unit: "Month",
+        unit: "Mo",
         icon: FiSmartphone,
       },
-
       {
-        name: "Social Media Handling Per Site",
-        desc: "eMark Setu provides the best Social Media Marketing Service in India. Get your business booming with the Best E-commerce service provider in India.",
+        name: "Social Media Handling",
+        desc: "Complete social presence management, content strategy, and viral social commerce execution.",
         price: "₹9,500",
-        unit: "Month",
+        unit: "Mo",
         icon: FiShare2,
       },
     ],
   },
-
   {
     title: "Store & Listing Services",
-
     items: [
       {
         name: "Amazon Brand Store Page",
-        desc: "eMark Setu provides the best Amazon Brand Store Page Service in India. Get your business booming with the Best E-commerce service provider in India.",
+        desc: "Custom immersive A+ storefront designs that captivate shoppers and boost brand trust.",
         price: "₹5,900",
         unit: "Page",
         logoKey: "amazon",
       },
-
       {
-        name: "Account Launching Service Per Portal",
-        desc: "eMark Setu provides the best Account Launching Service in India. Get your business booming with the Best E-commerce service provider in India.",
+        name: "Account Launching Service",
+        desc: "Complete onboarding setup, documentation, verification, and first product deployment.",
         price: "₹5,900",
-        unit: "Month",
+        unit: "Mo",
         icon: FiPlayCircle,
       },
-
       {
-        name: "Product Listing Per SKU",
-        desc: "Our product listing and cataloging experts will help upload each of your products with accurate information such as product IDs, tags, images, descriptions and other important details.",
+        name: "Product Listing & Cataloging",
+        desc: "SEO-optimized product titles, accurate metadata, image optimization, and SKU uploading.",
         price: "₹15",
         unit: "SKU",
         icon: FiList,
       },
     ],
   },
-
   {
     title: "Marketing & Growth",
-
     items: [
       {
         name: "Digital Marketing Service",
-        desc: "Digital marketing is the act of promoting and selling products and services using online marketing tactics such as social media marketing, search marketing and email marketing.",
+        desc: "Hyper-targeted paid advertising (PPC), social ads, and automated email funnel strategies.",
         price: "₹5,900",
-        unit: "Month",
+        unit: "Mo",
         icon: FiTrendingUp,
       },
-
       {
-        name: "Feedback Review Service Per Feedback",
-        desc: "eMark Setu provides the best Feedback Review Service in India. Get your business booming with the Best E-commerce service provider in India.",
+        name: "Feedback Review Service",
+        desc: "Proactive customer review accumulation to improve seller rating and product conversion.",
         price: "₹100",
-        unit: "Feedback",
+        unit: "Review",
         icon: FiMessageSquare,
       },
-
       {
-        name: "Search Engine Optimization Services",
-        desc: "We provide the best Search Engine Optimization Services in India. Get your business booming with the Best E-commerce service provider in India.",
+        name: "Search Engine Optimization (SEO)",
+        desc: "Rank higher on Google and marketplace algorithms for high-intent organic buyer keywords.",
         price: "₹11,800",
-        unit: "SEO",
+        unit: "Mo",
         icon: FiSearch,
       },
     ],
   },
-
   {
     title: "Operations & Compliance",
-
     items: [
       {
-        name: "Seller Reinstatement Service Any Portal",
-        desc: "eMark Setu provides the best Seller Reinstatement Service in India. Get your business booming with the Best E-commerce service provider in India.",
+        name: "Seller Reinstatement Service",
+        desc: "Fast appeal drafting and operational plan of action (POA) to reinstate suspended accounts.",
         price: "₹3,540",
-        unit: "Month",
+        unit: "Mo",
         icon: FiRefreshCw,
       },
-
       {
-        name: "Payment Reconciliation Report Service",
-        desc: "eMark Setu provides the best Payment Reconciliation Report Service in India. Get your business booming with the Best E-commerce service provider in India.",
+        name: "Payment Reconciliation",
+        desc: "In-depth financial auditing to track missing returns, marketplace fees, and overcharges.",
         price: "₹3,540",
-        unit: "Month",
+        unit: "Mo",
         icon: FiFileText,
       },
-
       {
-        name: "Branding Video Service Per Video",
-        desc: "eMark Setu provides the best Branding Video Service in India. Get your business booming with the Best E-commerce service provider in India.",
+        name: "Branding Video Production",
+        desc: "High-impact video creation for listing conversion and multi-channel advertising campaigns.",
         price: "₹2,500",
         unit: "Video",
         icon: FiVideo,
       },
     ],
   },
-
   {
     title: "Registrations",
-
     items: [
       {
         name: "Trademark Registration",
-        desc: "eMark Setu provides the best Trademark Registration Service in India. Get your business booming with the Best E-commerce service provider in India.",
+        desc: "Protect your IP and unlock brand registry perks across major platforms like Amazon.",
         price: "₹7,999",
-        unit: "Registration",
+        unit: "Reg",
         icon: FiAward,
       },
-
       {
         name: "GST Registration Service",
-        desc: "eMark Setu provides the best GST Registration Service in India. Get your business booming with the Best E-commerce service provider in India.",
+        desc: "Hassle-free GST application, documentation, and filing setup for ecommerce sellers.",
         price: "₹999",
-        unit: "Registration",
+        unit: "Reg",
         icon: FiFileText,
       },
-
       {
         name: "MSME Registration Service",
-        desc: "eMark Setu provides the best MSME Registration Service in India. Get your business booming with the Best E-commerce service provider in India.",
+        desc: "Get government benefits, business credit line access, and official MSME certification.",
         price: "₹999",
-        unit: "Registration",
+        unit: "Reg",
         icon: FiShield,
       },
     ],
   },
 ];
 
-/* =========================================================
-   STARTING POINTS
-========================================================= */
-
 const startingPoints = [
-  {
-    label: "Account Launch",
-    value: "₹2,000 per portal",
-  },
-
-  {
-    label: "Listing & Cataloging",
-    value: "₹15 per SKU per platform",
-  },
-
-  {
-    label: "Suspension Get Back",
-    value: "₹5,000 per platform",
-  },
-
-  {
-    label: "Account Management",
-    value: "₹2,999 per platform",
-  },
+  { label: "Account Launch", value: "₹2,000 / portal" },
+  { label: "Listing & Cataloging", value: "₹15 / SKU" },
+  { label: "Suspension Recovery", value: "₹5,000 / portal" },
+  { label: "Account Management", value: "₹2,999 / portal" },
 ];
 
-/* =========================================================
-   SERVICE CARD
-========================================================= */
-
-function PriceCard({ item, delay = 0 }) {
-  const Icon = item.icon;
+function PriceCardWhite({ item, delay = 0 }) {
+  const Icon = item.icon || FiZap;
 
   return (
     <Reveal delay={delay}>
-      <div className="group flex h-full flex-col rounded-2xl border border-navy-900/[0.06] bg-white p-6 shadow-card transition-all duration-300 hover:-translate-y-1.5 hover:shadow-soft">
+      <div className="group relative flex h-full flex-col justify-between overflow-hidden rounded-2xl border border-slate-200/80 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1.5 hover:border-blue-300 hover:shadow-xl">
+        <div>
+          <div className="flex items-center justify-between">
+            {item.logoKey ? (
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-slate-100 bg-slate-50 p-2.5 shadow-inner overflow-hidden">
+                <LogoTile
+                  logoKey={item.logoKey}
+                  name={item.name}
+                  className="h-full w-full object-contain"
+                />
+              </div>
+            ) : (
+              <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-50 text-blue-600 transition-colors group-hover:bg-blue-600 group-hover:text-white">
+                <Icon size={20} />
+              </span>
+            )}
 
-        {/* ICON / LOGO */}
+            <span className="rounded-full bg-slate-100 px-2.5 py-1 text-[10px] font-medium text-slate-500">
+              Verified Solution
+            </span>
+          </div>
 
-        {item.logoKey ? (
-          <LogoTile
-            logoKey={item.logoKey}
-            name={item.name}
-            className="h-14 w-14"
-          />
-        ) : (
-          <span className="flex h-14 w-14 items-center justify-center rounded-xl bg-blue-600/10 text-blue-600 transition-all duration-300 group-hover:bg-blue-600 group-hover:text-white">
-            <Icon size={22} />
-          </span>
-        )}
+          <h3 className="mt-5 font-display text-base font-bold text-slate-900 transition-colors group-hover:text-blue-600">
+            {item.name}
+          </h3>
 
-        {/* TITLE */}
+          <p className="mt-2 text-xs leading-relaxed text-slate-500 line-clamp-3">
+            {item.desc}
+          </p>
+        </div>
 
-        <h3 className="mt-5 font-display text-[15px] font-bold leading-snug text-navy-900">
-          {item.name}
-        </h3>
-
-        {/* DESCRIPTION */}
-
-        <p className="mt-2.5 flex-1 text-[12.5px] leading-relaxed text-slate-500">
-          {item.desc}
-        </p>
-
-        {/* PRICE */}
-
-        <div className="mt-6 flex items-end justify-between gap-4 border-t border-navy-900/[0.06] pt-5">
-
+        <div className="mt-6 flex items-center justify-between border-t border-slate-100 pt-4">
           <div>
-            <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+            <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">
               Starting from
             </p>
-
-            <p className="mt-1 font-display text-xl font-bold text-blue-600">
-              {item.price}
-
-              <span className="text-[11px] font-medium text-slate-400">
+            <p className="mt-0.5 font-display text-lg font-bold text-slate-900">
+              {item.price}{" "}
+              <span className="text-xs font-normal text-slate-500">
                 /{item.unit}
               </span>
             </p>
           </div>
 
-          <span className="flex h-9 w-9 items-center justify-center rounded-full bg-sky-100 text-blue-600 transition-all group-hover:bg-blue-600 group-hover:text-white">
+          <a
+            href="/contact-us"
+            aria-label={`Inquire about ${item.name}`}
+            className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 bg-slate-50 text-slate-600 transition-all hover:border-blue-600 hover:bg-blue-600 hover:text-white"
+          >
             <FiArrowRight size={15} />
-          </span>
-
+          </a>
         </div>
       </div>
     </Reveal>
   );
 }
 
-/* =========================================================
-   PRICING PAGE
-========================================================= */
+export default function PricingWhite() {
+  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [searchQuery, setSearchQuery] = useState("");
 
-export default function Pricing() {
-return (
-<>
-{/* =====================================================
-HERO
-===================================================== */}
+  const pageTitle = "Transparent E-commerce Pricing & Services | eMark Setu";
+  const pageDescription = "Explore transparent pricing for Amazon, Flipkart, Myntra account management, cataloging, website development, PPC marketing, and seller compliance.";
+  const canonicalUrl = "https://yourwebsite.com/pricing";
 
+  const schemaData = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "serviceType": "E-commerce Management & Growth Services",
+    "provider": {
+      "@type": "Organization",
+      "name": "eMark Setu"
+    },
+    "areaServed": "India",
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "E-commerce Services Directory",
+      "itemListElement": categories.map((cat) => ({
+        "@type": "OfferCatalog",
+        "name": cat.title,
+        "itemListElement": cat.items.slice(0, 3).map((item) => ({
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": item.name,
+            "description": item.desc
+          },
+          "priceSpecification": {
+            "@type": "UnitPriceSpecification",
+            "price": item.price,
+            "priceCurrency": "INR"
+          }
+        }))
+      }))
+    }
+  };
 
-  <section
-    className="relative overflow-hidden bg-navy-900 bg-cover bg-center bg-no-repeat pb-28 pt-[140px] sm:pb-32"
-    style={{ backgroundImage: `url(${hero})` }}
-  >
-    {/* DARK IMAGE OVERLAY */}
-    <div className="pointer-events-none absolute inset-0 bg-navy-900/85" />
+  const filteredCategories = useMemo(() => {
+    return categories
+      .map((cat) => {
+        const catId = cat.title
+          .toLowerCase()
+          .replaceAll(" ", "-")
+          .replaceAll("&", "");
 
-    {/* BLUE GLOW */}
-    <div className="pointer-events-none absolute -right-32 -top-32 h-[500px] w-[500px] rounded-full bg-blue-600/20 blur-[130px]" />
+        if (selectedCategory !== "all" && selectedCategory !== catId) {
+          return null;
+        }
 
-    <div className="pointer-events-none absolute -bottom-40 left-[-10%] h-[420px] w-[420px] rounded-full bg-sky-500/10 blur-[120px]" />
+        const items = cat.items.filter(
+          (item) =>
+            item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            item.desc.toLowerCase().includes(searchQuery.toLowerCase())
+        );
 
-    <Container className="relative z-10">
-      <Reveal>
-        <div className="mx-auto max-w-4xl text-center">
+        return { ...cat, items };
+      })
+      .filter((cat) => cat && cat.items.length > 0);
+  }, [selectedCategory, searchQuery]);
 
-          <span className="inline-flex items-center gap-2 rounded-full border border-blue-400/20 bg-blue-400/10 px-4 py-2 text-[11px] font-bold uppercase tracking-wider text-blue-400">
-            <FiTag size={13} />
-            Our Services
-          </span>
+  return (
+    <div className="bg-white font-sans text-slate-800 selection:bg-blue-600 selection:text-white">
+      {/* SEO Meta Tags */}
+      <Helmet>
+        <title>{pageTitle}</title>
+        <meta name="description" content={pageDescription} />
+        <meta name="keywords" content="ecommerce pricing, amazon account management cost, flipkart cataloging rates, ecommerce seo packages, seller reinstatement fees" />
+        <link rel="canonical" href={canonicalUrl} />
 
-          <h1 className="mt-6 font-display text-4xl font-bold leading-[1.08] text-white sm:text-5xl lg:text-[64px]">
-            End-to-End{" "}
-            <span className="text-blue-400">
-              E-commerce
-            </span>{" "}
-            &amp; Digital Growth Solutions
-          </h1>
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content={pageTitle} />
+        <meta property="og:description" content={pageDescription} />
+        <meta property="og:url" content={canonicalUrl} />
 
-          <p className="mx-auto mt-6 max-w-2xl text-[14.5px] leading-7 text-slate-400">
-            From launching your online store to scaling your marketplace
-            presence, we provide everything your business needs to sell
-            more, grow faster and dominate online.
-          </p>
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={pageTitle} />
+        <meta name="twitter:description" content={pageDescription} />
 
-          <div className="mt-8 flex flex-wrap justify-center gap-4">
+        {/* Structured Data (JSON-LD) */}
+        <script type="application/ld+json">
+          {JSON.stringify(schemaData)}
+        </script>
+      </Helmet>
 
-            <PrimaryButton href="/contact-us">
-              Explore Our Services
-              <FiArrowRight size={15} />
-            </PrimaryButton>
+      {/* Hero Section */}
+      <section
+        className="relative overflow-hidden bg-slate-900 bg-cover bg-center bg-no-repeat pb-24 pt-36 sm:pb-32 sm:pt-44"
+        style={{ backgroundImage: `url(${hero})` }}
+      >
+        <div className="pointer-events-none absolute inset-0 bg-slate-900/85" />
+        <div className="pointer-events-none absolute -right-20 -top-20 h-[500px] w-[500px] rounded-full bg-blue-500/20 blur-[130px]" />
 
-            <a
-              href="#services"
-              className="flex items-center gap-2 rounded-xl border border-white/15 px-5 py-3 text-[13px] font-semibold text-white transition hover:bg-white/10"
-            >
-              View All Services
-            </a>
-
-          </div>
-
-          {/* STATS */}
-
-          <div className="mx-auto mt-12 flex max-w-2xl flex-wrap justify-center gap-x-8 gap-y-5 border-t border-white/10 pt-7">
-
-            <div>
-              <p className="font-display text-2xl font-bold text-white">
-                150+
-              </p>
-
-              <p className="mt-1 text-[11px] text-slate-500">
-                Marketplaces Integrated
-              </p>
-            </div>
-
-            <div className="hidden h-10 w-px bg-white/10 sm:block" />
-
-            <div>
-              <p className="font-display text-2xl font-bold text-white">
-                250+
-              </p>
-
-              <p className="mt-1 text-[11px] text-slate-500">
-                Happy Clients
-              </p>
-            </div>
-
-            <div className="hidden h-10 w-px bg-white/10 sm:block" />
-
-            <div>
-              <p className="font-display text-2xl font-bold text-white">
-                5+
-              </p>
-
-              <p className="mt-1 text-[11px] text-slate-500">
-                Years Experience
-              </p>
-            </div>
-
-          </div>
-
-        </div>
-      </Reveal>
-    </Container>
-  </section>
-
-
-  {/* =====================================================
-      CORE SERVICES
-  ===================================================== */}
-
-  <section id="services" className="bg-white py-20 sm:py-24">
-
-    <Container>
-
-      <Reveal className="mx-auto max-w-2xl text-center">
-
-        <Eyebrow>
-          What We Do
-        </Eyebrow>
-
-        <h2 className="mt-5 font-display text-3xl font-bold text-navy-900 sm:text-4xl">
-
-          Everything You Need To{" "}
-
-          <span className="text-blue-600">
-            Grow Online
-          </span>
-
-        </h2>
-
-        <p className="mt-4 text-[14px] leading-7 text-slate-500">
-
-          From marketplace management and website development to digital
-          marketing and compliance, we help businesses build, launch and
-          scale under one roof.
-
-        </p>
-
-      </Reveal>
-
-      <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-
-        {categories.slice(0, 4).map((category, index) => (
-
-          <Reveal key={category.title} delay={index * 0.08}>
-
-            <div className="group h-full rounded-2xl border border-navy-900/[0.06] bg-white p-6 shadow-card transition-all hover:-translate-y-1.5 hover:shadow-soft">
-
-              <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-600/10 text-blue-600 transition group-hover:bg-blue-600 group-hover:text-white">
-
-                {index === 0 && <FiShoppingBag size={21} />}
-
-                {index === 1 && <FiGlobe size={21} />}
-
-                {index === 2 && <FiList size={21} />}
-
-                {index === 3 && <FiTrendingUp size={21} />}
-
+        <Container className="relative z-10">
+          <Reveal>
+            <div className="mx-auto max-w-4xl text-center">
+              <span className="inline-flex items-center gap-2 rounded-full border border-blue-400/30 bg-blue-400/10 px-4 py-1.5 text-xs font-semibold tracking-wider text-blue-300 backdrop-blur-md">
+                <FiTag size={13} />
+                TRANSPARENT PRICING & SERVICES
               </span>
 
-              <h3 className="mt-5 font-display text-[15px] font-bold text-navy-900">
-                {category.title}
-              </h3>
+              <h1 className="mt-6 font-display text-4xl font-extrabold tracking-tight text-white sm:text-6xl lg:text-7xl">
+                End-To-End{" "}
+                <span className="text-blue-400">Ecommerce Scale.</span>
+              </h1>
 
-              <p className="mt-2 text-[12.5px] leading-relaxed text-slate-500">
-                {category.items.length} specialized services to help your
-                business grow faster.
+              <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-slate-300 sm:text-lg">
+                From launching your storefront to scaling multi-marketplace
+                dominance—we provide transparent, result-oriented services tailored
+                for high growth.
               </p>
 
-              <a
-                href={`#${category.title
-                  .toLowerCase()
-                  .replaceAll(" ", "-")
-                  .replaceAll("&", "")}`}
-                className="mt-5 flex items-center gap-2 text-[12px] font-bold text-blue-600"
-              >
-                Explore Services
-                <FiArrowRight size={13} />
-              </a>
+              <div className="mt-8 flex flex-wrap justify-center gap-4">
+                <PrimaryButton
+                  href="/contact-us"
+                  className="shadow-lg shadow-blue-600/30"
+                >
+                  Get Free Consultation
+                  <FiArrowRight size={16} />
+                </PrimaryButton>
 
+                <a
+                  href="#services"
+                  className="flex items-center gap-2 rounded-xl border border-white/20 bg-white/10 px-6 py-3.5 text-sm font-semibold text-white backdrop-blur-md transition hover:bg-white/20"
+                >
+                  Explore All Services
+                </a>
+              </div>
+
+              {/* Stats Bar */}
+              <div className="mx-auto mt-14 grid max-w-2xl grid-cols-3 divide-x divide-white/10 rounded-2xl border border-white/15 bg-white/5 p-4 backdrop-blur-md">
+                <div>
+                  <p className="font-display text-2xl font-black text-white sm:text-3xl">
+                    150+
+                  </p>
+                  <p className="mt-0.5 text-xs text-slate-400">Marketplaces</p>
+                </div>
+                <div>
+                  <p className="font-display text-2xl font-black text-white sm:text-3xl">
+                    250+
+                  </p>
+                  <p className="mt-0.5 text-xs text-slate-400">Happy Clients</p>
+                </div>
+                <div>
+                  <p className="font-display text-2xl font-black text-white sm:text-3xl">
+                    5+ Yrs
+                  </p>
+                  <p className="mt-0.5 text-xs text-slate-400">Excellence</p>
+                </div>
+              </div>
+            </div>
+          </Reveal>
+        </Container>
+      </section>
+
+      {/* Starting Rates Section */}
+      <section className="relative border-b border-slate-100 bg-slate-50/70 py-16">
+        <Container>
+          <div className="grid items-center gap-12 lg:grid-cols-12">
+            <div className="lg:col-span-5">
+              <Reveal>
+                <Eyebrow>Simple Starting Rates</Eyebrow>
+                <h2 className="mt-3 font-display text-3xl font-bold text-slate-900">
+                  Start Small. <span className="text-blue-600">Scale Big.</span>
+                </h2>
+                <p className="mt-3 text-sm leading-relaxed text-slate-500">
+                  Select key modular services or let us manage your full
+                  ecommerce operations with customized packages.
+                </p>
+
+                <div className="mt-6 flex flex-col gap-3">
+                  {startingPoints.map((point) => (
+                    <div
+                      key={point.label}
+                      className="flex items-center justify-between rounded-xl border border-slate-200/80 bg-white p-3.5 shadow-sm"
+                    >
+                      <div className="flex items-center gap-2.5">
+                        <FiCheckCircle className="text-blue-600" size={16} />
+                        <span className="text-xs font-semibold text-slate-800">
+                          {point.label}
+                        </span>
+                      </div>
+                      <span className="text-xs font-bold text-blue-600">
+                        {point.value}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </Reveal>
             </div>
 
+            <div className="lg:col-span-7">
+              <Reveal delay={0.1}>
+                <div className="grid gap-4 sm:grid-cols-2">
+                  {categories
+                    .slice(0, 2)
+                    .flatMap((cat) => cat.items.slice(0, 2))
+                    .map((item, index) => (
+                      <PriceCardWhite
+                        key={item.name}
+                        item={item}
+                        delay={index * 0.05}
+                      />
+                    ))}
+                </div>
+              </Reveal>
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      {/* Main Directory & Category Filtering */}
+      <section id="services" className="bg-white py-24">
+        <Container>
+          <Reveal className="text-center">
+            <Eyebrow>Full Service Directory</Eyebrow>
+            <h2 className="mt-3 font-display text-3xl font-extrabold text-slate-900 sm:text-4xl">
+              Explore Our <span className="text-blue-600">Capabilities</span>
+            </h2>
           </Reveal>
 
-        ))}
-
-      </div>
-
-    </Container>
-
-  </section>
-
-
-  {/* =====================================================
-      STARTING PRICES
-  ===================================================== */}
-
-  <section className="bg-sky-100 py-16 sm:py-20">
-
-    <Container>
-
-      <div className="grid items-center gap-10 lg:grid-cols-[0.8fr_1.2fr]">
-
-        <Reveal>
-
-          <Eyebrow>
-            Simple Pricing
-          </Eyebrow>
-
-          <h2 className="mt-5 font-display text-2xl font-bold text-navy-900 sm:text-3xl">
-
-            Start Small.{" "}
-
-            <span className="text-blue-600">
-              Scale Big.
-            </span>
-
-          </h2>
-
-          <p className="mt-4 text-[14px] leading-7 text-slate-500">
-
-            Choose the services you need and build a growth plan that fits
-            your business.
-
-          </p>
-
-          <div className="mt-7 flex flex-col gap-4">
-
-            {startingPoints.map((point) => (
-
-              <div
-                key={point.label}
-                className="flex items-center justify-between gap-4"
+          {/* Dynamic Filter Controls */}
+          <div className="sticky top-6 z-30 my-10 flex flex-col gap-4 rounded-2xl border border-slate-200 bg-white/90 p-3 shadow-lg backdrop-blur-xl sm:flex-row sm:items-center sm:justify-between">
+            <div className="no-scrollbar flex overflow-x-auto gap-2">
+              <button
+                onClick={() => setSelectedCategory("all")}
+                className={`whitespace-nowrap rounded-xl px-4 py-2 text-xs font-semibold transition ${
+                  selectedCategory === "all"
+                    ? "bg-blue-600 text-white shadow-md shadow-blue-600/20"
+                    : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+                }`}
               >
+                All Services
+              </button>
 
-                <div className="flex items-center gap-2.5">
+              {categories.map((cat) => {
+                const catId = cat.title
+                  .toLowerCase()
+                  .replaceAll(" ", "-")
+                  .replaceAll("&", "");
+                const isActive = selectedCategory === catId;
 
-                  <FaCheckDouble
-                    className="text-blue-600"
-                    size={13}
-                  />
+                return (
+                  <button
+                    key={cat.title}
+                    onClick={() => setSelectedCategory(catId)}
+                    className={`whitespace-nowrap rounded-xl px-4 py-2 text-xs font-semibold transition ${
+                      isActive
+                        ? "bg-blue-600 text-white shadow-md shadow-blue-600/20"
+                        : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+                    }`}
+                  >
+                    {cat.title}
+                  </button>
+                );
+              })}
+            </div>
 
-                  <span className="text-[13px] font-semibold text-navy-900">
-                    {point.label}
-                  </span>
+            {/* Quick Search Input */}
+            <div className="relative min-w-[220px]">
+              <FiSearch
+                className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
+                size={15}
+              />
+              <input
+                type="text"
+                placeholder="Search services..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full rounded-xl border border-slate-200 bg-slate-50 py-1.5 pl-9 pr-8 text-xs text-slate-800 transition focus:border-blue-600 focus:bg-white focus:outline-none"
+              />
+              {searchQuery && (
+                <button
+                  onClick={() => setSearchQuery("")}
+                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                >
+                  <FiXCircle size={14} />
+                </button>
+              )}
+            </div>
+          </div>
 
-                </div>
+          {/* Categories Grid */}
+          <div className="mt-12 space-y-20">
+            {filteredCategories.length > 0 ? (
+              filteredCategories.map((category, categoryIndex) => {
+                const categoryId = category.title
+                  .toLowerCase()
+                  .replaceAll(" ", "-")
+                  .replaceAll("&", "");
 
-                <span className="text-[13px] font-bold text-blue-600">
-                  {point.value}
-                </span>
+                return (
+                  <div
+                    key={category.title}
+                    id={categoryId}
+                    className="scroll-mt-28"
+                  >
+                    <Reveal>
+                      <div className="mb-6 flex items-center gap-3 border-b border-slate-100 pb-4">
+                        <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-600 text-sm font-bold text-white shadow-md shadow-blue-600/20">
+                          {String(categoryIndex + 1).padStart(2, "0")}
+                        </span>
+                        <div>
+                          <h3 className="font-display text-xl font-bold text-slate-900">
+                            {category.title}
+                          </h3>
+                          <p className="text-xs text-slate-500">
+                            {category.items.length} specialized solutions available
+                          </p>
+                        </div>
+                      </div>
+                    </Reveal>
 
+                    <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                      {category.items.map((item, index) => (
+                        <PriceCardWhite
+                          key={item.name}
+                          item={item}
+                          delay={(index % 6) * 0.04}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                );
+              })
+            ) : (
+              <div className="py-16 text-center text-slate-500">
+                <FiSearch className="mx-auto mb-3 text-slate-300" size={32} />
+                <p className="text-sm font-medium">
+                  No services matching "<strong>{searchQuery}</strong>"
+                </p>
+                <button
+                  onClick={() => {
+                    setSearchQuery("");
+                    setSelectedCategory("all");
+                  }}
+                  className="mt-3 text-xs font-semibold text-blue-600 hover:underline"
+                >
+                  Clear search and filters
+                </button>
               </div>
-
-            ))}
-
+            )}
           </div>
+        </Container>
+      </section>
 
-        </Reveal>
-
-        <Reveal delay={0.1}>
-
-          <div className="grid gap-5 sm:grid-cols-2">
-
-            {categories
-              .slice(0, 2)
-              .flatMap((cat) => cat.items.slice(0, 2))
-              .map((item, index) => (
-
-                <PriceCard
-                  key={item.name}
-                  item={item}
-                  delay={index * 0.05}
-                />
-
-              ))}
-
-          </div>
-
-        </Reveal>
-
-      </div>
-
-    </Container>
-
-  </section>
-
-
-  {/* =====================================================
-      ALL SERVICES
-  ===================================================== */}
-
-  <section className="bg-white py-20 sm:py-24">
-
-    <Container>
-
-      <Reveal className="text-center">
-
-        <Eyebrow>
-          Our Expertise
-        </Eyebrow>
-
-        <h2 className="mt-5 font-display text-2xl font-bold text-navy-900 sm:text-3xl">
-
-          Explore All Our{" "}
-
-          <span className="text-blue-600">
-            Services
-          </span>
-
-        </h2>
-
-      </Reveal>
-
-      <div className="mt-12 flex flex-col gap-20">
-
-        {categories.map((category, categoryIndex) => {
-
-          const categoryId = category.title
-            .toLowerCase()
-            .replaceAll(" ", "-")
-            .replaceAll("&", "");
-
-          return (
-
-            <div
-              key={category.title}
-              id={categoryId}
-            >
-
+      {/* Metrics & Proof Section */}
+      <section className="border-t border-slate-100 bg-slate-50/60 py-24">
+        <Container>
+          <div className="grid items-center gap-16 lg:grid-cols-12">
+            <div className="lg:col-span-5">
               <Reveal>
-
-                <div className="mb-7 flex items-center gap-3">
-
-                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-600 text-white">
-                    <FiTag size={17} />
-                  </span>
-
-                  <div>
-
-                    <p className="text-[10px] font-bold uppercase tracking-wider text-blue-600">
-                      Category{" "}
-                      {String(categoryIndex + 1).padStart(2, "0")}
-                    </p>
-
-                    <h3 className="mt-1 font-display text-xl font-bold text-navy-900">
-                      {category.title}
-                    </h3>
-
+                <div className="relative overflow-hidden rounded-3xl border border-slate-200/80 bg-white p-6 shadow-xl">
+                  <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+                    <div>
+                      <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                        Live Metric Analytics
+                      </p>
+                      <p className="mt-0.5 text-2xl font-extrabold text-slate-900">
+                        12,580
+                      </p>
+                      <p className="text-xs text-slate-500">
+                        Total Client Orders Fulfilled
+                      </p>
+                    </div>
+                    <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-bold text-emerald-600">
+                      ↑ +24% YoY
+                    </span>
                   </div>
 
-                </div>
+                  <div className="mt-8 flex h-36 items-end gap-2.5">
+                    {[35, 48, 42, 60, 75, 88, 100].map((height, i) => (
+                      <div
+                        key={i}
+                        className="flex-1 rounded-t-md bg-blue-600 transition-all hover:bg-blue-700"
+                        style={{ height: `${height}%` }}
+                      />
+                    ))}
+                  </div>
 
+                  <div className="mt-6 flex items-center justify-between rounded-xl border border-slate-100 bg-slate-50 p-4">
+                    <div>
+                      <p className="text-[10px] font-bold uppercase text-slate-400">
+                        Average Growth Rate
+                      </p>
+                      <p className="text-xl font-bold text-emerald-600">
+                        +67% Revenue
+                      </p>
+                    </div>
+                    <FiTrendingUp className="text-emerald-600" size={24} />
+                  </div>
+                </div>
               </Reveal>
-
-              <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-
-                {category.items.map((item, index) => (
-
-                  <PriceCard
-                    key={item.name}
-                    item={item}
-                    delay={(index % 6) * 0.04}
-                  />
-
-                ))}
-
-              </div>
-
             </div>
 
-          );
+            <div className="lg:col-span-7">
+              <Reveal delay={0.1}>
+                <Eyebrow>Why eMark Setu</Eyebrow>
+                <h2 className="mt-3 font-display text-3xl font-bold text-slate-900 sm:text-4xl">
+                  Your Revenue Expansion Is{" "}
+                  <span className="text-blue-600">Our Priority.</span>
+                </h2>
+                <p className="mt-4 text-sm leading-relaxed text-slate-500">
+                  We don't just complete tasks—we act as your strategic growth
+                  engine, driving real sales figures, seamless compliance, and
+                  brand authority.
+                </p>
 
-        })}
+                <div className="mt-8 grid gap-4 sm:grid-cols-2">
+                  {[
+                    [FiTarget, "Result-Driven Strategies"],
+                    [FiShield, "Transparent Auditing & Pricing"],
+                    [FiUsers, "Dedicated Account Managers"],
+                    [FiHeadphones, "24/7 Operations Support"],
+                  ].map(([Icon, label]) => (
+                    <div
+                      key={label}
+                      className="flex items-center gap-3 rounded-xl border border-slate-200/80 bg-white p-4 shadow-sm"
+                    >
+                      <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-blue-50 text-blue-600">
+                        <Icon size={18} />
+                      </div>
+                      <span className="text-xs font-bold text-slate-800">
+                        {label}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </Reveal>
+            </div>
+          </div>
+        </Container>
+      </section>
 
-      </div>
-
-    </Container>
-
-  </section>
-
-
-  {/* =====================================================
-      WHY CHOOSE US
-  ===================================================== */}
-
-  <section className="bg-sky-100 py-20 sm:py-24">
-
-    <Container>
-
-      <div className="grid items-center gap-12 lg:grid-cols-2">
-
-        <Reveal>
-
-          <div className="relative mx-auto max-w-md">
-
-            <div className="absolute inset-10 rounded-full bg-blue-600/20 blur-[70px]" />
-
-            <div className="relative rounded-3xl border border-navy-900/[0.06] bg-white p-7 shadow-card">
-
-              <div className="flex items-center justify-between">
-
-                <div>
-
-                  <p className="text-[11px] text-slate-400">
-                    Total Orders
-                  </p>
-
-                  <p className="mt-1 text-3xl font-bold text-navy-900">
-                    12,580
-                  </p>
-
+      {/* Call To Action Footer Banner */}
+      <section className="relative bg-white py-20">
+        <Container>
+          <Reveal>
+            <div className="relative overflow-hidden rounded-3xl border border-slate-200 bg-slate-900 p-8 shadow-2xl sm:p-12">
+              <div className="flex flex-col items-center justify-between gap-6 text-center sm:flex-row sm:text-left">
+                <div className="flex items-center gap-4">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-600/30">
+                    <FiZap size={22} />
+                  </div>
+                  <div>
+                    <h2 className="font-display text-xl font-bold text-white sm:text-2xl">
+                      Ready to scale your e-commerce operations?
+                    </h2>
+                    <p className="mt-1 text-xs text-slate-400">
+                      Let's design a custom plan geared toward maximum
+                      profitability.
+                    </p>
+                  </div>
                 </div>
 
-                <span className="rounded-full bg-emerald-50 px-3 py-1 text-[11px] font-bold text-emerald-500">
-                  ↑ 24%
-                </span>
-
+                <PrimaryButton
+                  href="/contact-us"
+                  className="whitespace-nowrap shadow-lg shadow-blue-600/30"
+                >
+                  Talk To Our Experts
+                  <FiArrowRight size={15} />
+                </PrimaryButton>
               </div>
-
-              <div className="mt-8 flex h-36 items-end gap-3">
-
-                {[30, 42, 38, 55, 62, 78, 92].map((height, i) => (
-
-                  <div
-                    key={i}
-                    className="flex-1 rounded-t-lg bg-blue-600"
-                    style={{ height: `${height}%` }}
-                  />
-
-                ))}
-
-              </div>
-
-              <div className="mt-6 rounded-2xl bg-sky-100 p-4">
-
-                <p className="text-[11px] text-slate-500">
-                  Revenue Growth
-                </p>
-
-                <p className="mt-1 text-2xl font-bold text-emerald-500">
-                  +67%
-                </p>
-
-              </div>
-
             </div>
-
-          </div>
-
-        </Reveal>
-
-        <Reveal delay={0.1}>
-
-          <Eyebrow>
-            Why Choose eMark Setu
-          </Eyebrow>
-
-          <h2 className="mt-5 font-display text-3xl font-bold text-navy-900">
-
-            Your Success.{" "}
-
-            <span className="text-blue-600">
-              Our Priority.
-            </span>
-
-          </h2>
-
-          <p className="mt-4 max-w-lg text-[14px] leading-7 text-slate-500">
-
-            We don't just provide individual services. We build long-term
-            growth partnerships that help your business perform better
-            across every stage of the ecommerce journey.
-
-          </p>
-
-          <div className="mt-8 grid gap-4 sm:grid-cols-2">
-
-            {[
-
-              [FiTarget, "Result-Driven Strategies"],
-
-              [FiShield, "Transparent Process"],
-
-              [FiUsers, "Dedicated Expert Team"],
-
-              [FiHeadphones, "End-to-End Support"],
-
-            ].map(([Icon, label]) => (
-
-              <div
-                key={label}
-                className="flex items-center gap-3 rounded-xl border border-navy-900/[0.06] bg-white p-4"
-              >
-
-                <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-blue-600/10 text-blue-600">
-                  <Icon size={17} />
-                </span>
-
-                <span className="text-[12.5px] font-bold text-navy-900">
-                  {label}
-                </span>
-
-              </div>
-
-            ))}
-
-          </div>
-
-        </Reveal>
-
-      </div>
-
-    </Container>
-
-  </section>
-
-
-  {/* =====================================================
-      CTA
-  ===================================================== */}
-
-  <section className="bg-navy-900 py-16 sm:py-20">
-
-    <Container>
-
-      <Reveal>
-
-        <div className="flex flex-col items-center justify-between gap-7 rounded-3xl border border-white/10 bg-white/[0.04] p-7 sm:flex-row sm:p-10">
-
-          <div className="flex items-center gap-5">
-
-            <span className="flex h-14 w-14 flex-none items-center justify-center rounded-2xl bg-blue-600 text-white">
-              <FiTrendingUp size={24} />
-            </span>
-
-            <div>
-
-              <h2 className="font-display text-xl font-bold text-white sm:text-2xl">
-                Ready to grow your online business?
-              </h2>
-
-              <p className="mt-1 text-[13px] text-slate-400">
-                Let's build something amazing together.
-              </p>
-
-            </div>
-
-          </div>
-
-          <PrimaryButton href="/contact-us">
-            Talk To Our Experts
-            <FiArrowRight size={15} />
-          </PrimaryButton>
-
-        </div>
-
-      </Reveal>
-
-    </Container>
-
-  </section>
-
-</>
-)
+          </Reveal>
+        </Container>
+      </section>
+    </div>
+  );
 }
