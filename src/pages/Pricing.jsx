@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useCallback } from "react";
 import { Helmet } from "react-helmet-async";
 import {
   FiGlobe,
@@ -24,14 +24,9 @@ import {
   FiXCircle,
 } from "react-icons/fi";
 
+import SEO from "../components/SEO";
 import hero from "../assets/image/bg-image.webp";
-
-import {
-  Container,
-  Eyebrow,
-  PrimaryButton,
-  Reveal,
-} from "../components/ui";
+import { Container, Eyebrow, PrimaryButton, Reveal } from "../components/ui";
 
 const LOGO_URLS = {
   amazon: "https://cdn.simpleicons.org/amazon/FF9900",
@@ -50,24 +45,30 @@ const LOGO_URLS = {
   shopify: "https://cdn.simpleicons.org/shopify/7AB55C",
 };
 
+const slugify = (str) =>
+  str
+    .toLowerCase()
+    .replace(/[^a-z0-9]/g, "-")
+    .replace(/-+/g, "-");
+
 function LogoTile({ logoKey, name, className }) {
   const [hasError, setHasError] = useState(false);
   const logoUrl = LOGO_URLS[logoKey];
 
-  const getInitials = (text) => {
-    if (!text) return "E";
-    return text
+  const initials = useMemo(() => {
+    if (!name) return "E";
+    return name
       .split(" ")
-      .map((word) => word[0])
+      .map((w) => w[0])
       .join("")
       .slice(0, 2)
       .toUpperCase();
-  };
+  }, [name]);
 
   if (!logoUrl || hasError) {
     return (
       <div className="flex h-full w-full items-center justify-center font-bold text-xs text-blue-600 uppercase tracking-wider bg-blue-50 rounded-lg">
-        {getInitials(name)}
+        {initials}
       </div>
     );
   }
@@ -83,7 +84,8 @@ function LogoTile({ logoKey, name, className }) {
   );
 }
 
-const accountMgmt = (name, price, logoKey) => ({
+const accountMgmt = (id, name, price, logoKey) => ({
+  id,
   name: `${name} Account Management`,
   desc: `End-to-end operational management, listing optimization, and advertising scale for ${name} in India.`,
   price,
@@ -95,36 +97,37 @@ const categories = [
   {
     title: "Account Management",
     items: [
-      accountMgmt("Amazon", "₹5,900", "amazon"),
-      accountMgmt("Flipkart", "₹5,900", "flipkart"),
-      accountMgmt("Myntra", "₹11,800", "myntra"),
-      accountMgmt("Nykaa Fashion", "₹11,800", "nykaa"),
-      accountMgmt("Ajio", "₹5,900", "ajio"),
-      accountMgmt("Tata CLiQ", "₹9,999", "tatacliq"),
-      accountMgmt("Snapdeal", "₹2,500", "snapdeal"),
-      accountMgmt("Meesho", "₹5,900", "meesho"),
-      accountMgmt("Shopsy", "₹2,500", "shopsy"),
-      accountMgmt("Shopee", "₹2,500", "shopee"),
-      accountMgmt("Paytm", "₹2,500", "paytm"),
-      accountMgmt("Glance", "₹2,500", "glance"),
-      accountMgmt("Jio Mart", "₹2,999", "jiomart"),
-      accountMgmt("Rekkoz", "₹2,500", "rekkoz"),
-      accountMgmt("Limeroad", "₹2,500", "limeroad"),
+      accountMgmt("mgmt-amazon", "Amazon", "₹5,900", "amazon"),
+      accountMgmt("mgmt-flipkart", "Flipkart", "₹5,900", "flipkart"),
+      accountMgmt("mgmt-myntra", "Myntra", "₹11,800", "myntra"),
+      accountMgmt("mgmt-nykaa", "Nykaa Fashion", "₹11,800", "nykaa"),
+      accountMgmt("mgmt-ajio", "Ajio", "₹5,900", "ajio"),
+      accountMgmt("mgmt-tatacliq", "Tata CLiQ", "₹9,999", "tatacliq"),
+      accountMgmt("mgmt-snapdeal", "Snapdeal", "₹2,500", "snapdeal"),
+      accountMgmt("mgmt-meesho", "Meesho", "₹5,900", "meesho"),
+      accountMgmt("mgmt-shopsy", "Shopsy", "₹2,500", "shopsy"),
+      accountMgmt("mgmt-shopee", "Shopee", "₹2,500", "shopee"),
+      accountMgmt("mgmt-paytm", "Paytm", "₹2,500", "paytm"),
+      accountMgmt("mgmt-glance", "Glance", "₹2,500", "glance"),
+      accountMgmt("mgmt-jiomart", "Jio Mart", "₹2,999", "jiomart"),
+      accountMgmt("mgmt-rekkoz", "Rekkoz", "₹2,500", "rekkoz"),
+      accountMgmt("mgmt-limeroad", "Limeroad", "₹2,500", "limeroad"),
       {
-        ...accountMgmt("Amazon Global", "₹5,900", "amazon"),
+        ...accountMgmt("mgmt-amazon-global", "Amazon Global", "₹5,900", "amazon"),
         name: "Amazon Global Service",
       },
-      accountMgmt("Ebay", "₹5,900", "ebay"),
-      accountMgmt("ETSY", "₹5,900", "etsy"),
-      accountMgmt("Mirraw", "₹5,900", "mirraw"),
-      accountMgmt("Shopify", "₹5,900", "shopify"),
-      accountMgmt("Sim Sim", "₹2,500", "simsim"),
+      accountMgmt("mgmt-ebay", "Ebay", "₹5,900", "ebay"),
+      accountMgmt("mgmt-etsy", "ETSY", "₹5,900", "etsy"),
+      accountMgmt("mgmt-mirraw", "Mirraw", "₹5,900", "mirraw"),
+      accountMgmt("mgmt-shopify", "Shopify", "₹5,900", "shopify"),
+      accountMgmt("mgmt-simsim", "Sim Sim", "₹2,500", "simsim"),
     ],
   },
   {
     title: "Development Services",
     items: [
       {
+        id: "dev-web",
         name: "Ecommerce Website Development",
         desc: "Custom high-converting storefronts engineered for fast performance, high UX, and flawless checkout flow.",
         price: "₹29,500",
@@ -132,6 +135,7 @@ const categories = [
         icon: FiGlobe,
       },
       {
+        id: "dev-app",
         name: "Mobile App Development",
         desc: "Native Android & iOS applications crafted for hyper-engagement and frictionless consumer purchasing.",
         price: "₹29,500",
@@ -139,6 +143,7 @@ const categories = [
         icon: FiSmartphone,
       },
       {
+        id: "dev-social",
         name: "Social Media Handling",
         desc: "Complete social presence management, content strategy, and viral social commerce execution.",
         price: "₹9,500",
@@ -151,6 +156,7 @@ const categories = [
     title: "Store & Listing Services",
     items: [
       {
+        id: "store-brand-page",
         name: "Amazon Brand Store Page",
         desc: "Custom immersive A+ storefront designs that captivate shoppers and boost brand trust.",
         price: "₹5,900",
@@ -158,6 +164,7 @@ const categories = [
         logoKey: "amazon",
       },
       {
+        id: "store-launch",
         name: "Account Launching Service",
         desc: "Complete onboarding setup, documentation, verification, and first product deployment.",
         price: "₹5,900",
@@ -165,6 +172,7 @@ const categories = [
         icon: FiPlayCircle,
       },
       {
+        id: "store-cataloging",
         name: "Product Listing & Cataloging",
         desc: "SEO-optimized product titles, accurate metadata, image optimization, and SKU uploading.",
         price: "₹15",
@@ -177,6 +185,7 @@ const categories = [
     title: "Marketing & Growth",
     items: [
       {
+        id: "mktg-digital",
         name: "Digital Marketing Service",
         desc: "Hyper-targeted paid advertising (PPC), social ads, and automated email funnel strategies.",
         price: "₹5,900",
@@ -184,6 +193,7 @@ const categories = [
         icon: FiTrendingUp,
       },
       {
+        id: "mktg-reviews",
         name: "Feedback Review Service",
         desc: "Proactive customer review accumulation to improve seller rating and product conversion.",
         price: "₹100",
@@ -191,6 +201,7 @@ const categories = [
         icon: FiMessageSquare,
       },
       {
+        id: "mktg-seo",
         name: "Search Engine Optimization (SEO)",
         desc: "Rank higher on Google and marketplace algorithms for high-intent organic buyer keywords.",
         price: "₹11,800",
@@ -203,6 +214,7 @@ const categories = [
     title: "Operations & Compliance",
     items: [
       {
+        id: "ops-reinstatement",
         name: "Seller Reinstatement Service",
         desc: "Fast appeal drafting and operational plan of action (POA) to reinstate suspended accounts.",
         price: "₹3,540",
@@ -210,6 +222,7 @@ const categories = [
         icon: FiRefreshCw,
       },
       {
+        id: "ops-reconciliation",
         name: "Payment Reconciliation",
         desc: "In-depth financial auditing to track missing returns, marketplace fees, and overcharges.",
         price: "₹3,540",
@@ -217,6 +230,7 @@ const categories = [
         icon: FiFileText,
       },
       {
+        id: "ops-video",
         name: "Branding Video Production",
         desc: "High-impact video creation for listing conversion and multi-channel advertising campaigns.",
         price: "₹2,500",
@@ -229,6 +243,7 @@ const categories = [
     title: "Registrations",
     items: [
       {
+        id: "reg-trademark",
         name: "Trademark Registration",
         desc: "Protect your IP and unlock brand registry perks across major platforms like Amazon.",
         price: "₹7,999",
@@ -236,6 +251,7 @@ const categories = [
         icon: FiAward,
       },
       {
+        id: "reg-gst",
         name: "GST Registration Service",
         desc: "Hassle-free GST application, documentation, and filing setup for ecommerce sellers.",
         price: "₹999",
@@ -243,6 +259,7 @@ const categories = [
         icon: FiFileText,
       },
       {
+        id: "reg-msme",
         name: "MSME Registration Service",
         desc: "Get government benefits, business credit line access, and official MSME certification.",
         price: "₹999",
@@ -258,6 +275,13 @@ const startingPoints = [
   { label: "Listing & Cataloging", value: "₹15 / SKU" },
   { label: "Suspension Recovery", value: "₹5,000 / portal" },
   { label: "Account Management", value: "₹2,999 / portal" },
+];
+
+const valueProps = [
+  { icon: FiTarget, label: "Result-Driven Strategies" },
+  { icon: FiShield, label: "Transparent Auditing & Pricing" },
+  { icon: FiUsers, label: "Dedicated Account Managers" },
+  { icon: FiHeadphones, label: "24/7 Operations Support" },
 ];
 
 function PriceCardWhite({ item, delay = 0 }) {
@@ -327,48 +351,50 @@ export default function PricingWhite() {
   const [searchQuery, setSearchQuery] = useState("");
 
   const pageTitle = "Transparent E-commerce Pricing & Services | eMark Setu";
-  const pageDescription = "Explore transparent pricing for Amazon, Flipkart, Myntra account management, cataloging, website development, PPC marketing, and seller compliance.";
+  const pageDescription =
+    "Explore transparent pricing for Amazon, Flipkart, Myntra account management, cataloging, website development, PPC marketing, and seller compliance.";
   const canonicalUrl = "https://yourwebsite.com/pricing";
 
-  const schemaData = {
-    "@context": "https://schema.org",
-    "@type": "Service",
-    "serviceType": "E-commerce Management & Growth Services",
-    "provider": {
-      "@type": "Organization",
-      "name": "eMark Setu"
-    },
-    "areaServed": "India",
-    "hasOfferCatalog": {
-      "@type": "OfferCatalog",
-      "name": "E-commerce Services Directory",
-      "itemListElement": categories.map((cat) => ({
+  // Fixed valid Schema.org structure
+  const schemaData = useMemo(
+    () => ({
+      "@context": "https://schema.org",
+      "@type": "Service",
+      serviceType: "E-commerce Management & Growth Services",
+      provider: {
+        "@type": "Organization",
+        name: "eMark Setu",
+      },
+      areaServed: "India",
+      hasOfferCatalog: {
         "@type": "OfferCatalog",
-        "name": cat.title,
-        "itemListElement": cat.items.slice(0, 3).map((item) => ({
-          "@type": "Offer",
-          "itemOffered": {
-            "@type": "Service",
-            "name": item.name,
-            "description": item.desc
-          },
-          "priceSpecification": {
-            "@type": "UnitPriceSpecification",
-            "price": item.price,
-            "priceCurrency": "INR"
-          }
-        }))
-      }))
-    }
-  };
+        name: "E-commerce Services Directory",
+        itemListElement: categories.flatMap((cat) =>
+          cat.items.map((item) => ({
+            "@type": "Offer",
+            itemOffered: {
+              "@type": "Service",
+              name: item.name,
+              description: item.desc,
+            },
+            priceSpecification: {
+              "@type": "UnitPriceSpecification",
+              price: item.price.replace(/[^0-9]/g, ""),
+              priceCurrency: "INR",
+            },
+          }))
+        ),
+      },
+    }),
+    []
+  );
 
   const filteredCategories = useMemo(() => {
+    const query = searchQuery.trim().toLowerCase();
+
     return categories
       .map((cat) => {
-        const catId = cat.title
-          .toLowerCase()
-          .replaceAll(" ", "-")
-          .replaceAll("&", "");
+        const catId = slugify(cat.title);
 
         if (selectedCategory !== "all" && selectedCategory !== catId) {
           return null;
@@ -376,39 +402,38 @@ export default function PricingWhite() {
 
         const items = cat.items.filter(
           (item) =>
-            item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            item.desc.toLowerCase().includes(searchQuery.toLowerCase())
+            item.name.toLowerCase().includes(query) ||
+            item.desc.toLowerCase().includes(query)
         );
 
-        return { ...cat, items };
+        return { ...cat, id: catId, items };
       })
       .filter((cat) => cat && cat.items.length > 0);
   }, [selectedCategory, searchQuery]);
 
+  const handleClear = useCallback(() => {
+    setSearchQuery("");
+    setSelectedCategory("all");
+  }, []);
+
   return (
     <div className="bg-white font-sans text-slate-800 selection:bg-blue-600 selection:text-white">
-      {/* SEO Meta Tags */}
       <Helmet>
         <title>{pageTitle}</title>
         <meta name="description" content={pageDescription} />
-        <meta name="keywords" content="ecommerce pricing, amazon account management cost, flipkart cataloging rates, ecommerce seo packages, seller reinstatement fees" />
+        <meta
+          name="keywords"
+          content="ecommerce pricing, amazon account management cost, flipkart cataloging rates, ecommerce seo packages, seller reinstatement fees"
+        />
         <link rel="canonical" href={canonicalUrl} />
-
-        {/* Open Graph / Facebook */}
         <meta property="og:type" content="website" />
         <meta property="og:title" content={pageTitle} />
         <meta property="og:description" content={pageDescription} />
         <meta property="og:url" content={canonicalUrl} />
-
-        {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={pageTitle} />
         <meta name="twitter:description" content={pageDescription} />
-
-        {/* Structured Data (JSON-LD) */}
-        <script type="application/ld+json">
-          {JSON.stringify(schemaData)}
-        </script>
+        <script type="application/ld+json">{JSON.stringify(schemaData)}</script>
       </Helmet>
 
       {/* Hero Section */}
@@ -428,8 +453,7 @@ export default function PricingWhite() {
               </span>
 
               <h1 className="mt-6 font-display text-4xl font-extrabold tracking-tight text-white sm:text-6xl lg:text-7xl">
-                End-To-End{" "}
-                <span className="text-blue-400">Ecommerce Scale.</span>
+                End-To-End <span className="text-blue-400">Ecommerce Scale.</span>
               </h1>
 
               <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-slate-300 sm:text-lg">
@@ -525,7 +549,7 @@ export default function PricingWhite() {
                     .flatMap((cat) => cat.items.slice(0, 2))
                     .map((item, index) => (
                       <PriceCardWhite
-                        key={item.name}
+                        key={item.id}
                         item={item}
                         delay={index * 0.05}
                       />
@@ -562,15 +586,12 @@ export default function PricingWhite() {
               </button>
 
               {categories.map((cat) => {
-                const catId = cat.title
-                  .toLowerCase()
-                  .replaceAll(" ", "-")
-                  .replaceAll("&", "");
+                const catId = slugify(cat.title);
                 const isActive = selectedCategory === catId;
 
                 return (
                   <button
-                    key={cat.title}
+                    key={catId}
                     onClick={() => setSelectedCategory(catId)}
                     className={`whitespace-nowrap rounded-xl px-4 py-2 text-xs font-semibold transition ${
                       isActive
@@ -611,46 +632,39 @@ export default function PricingWhite() {
           {/* Categories Grid */}
           <div className="mt-12 space-y-20">
             {filteredCategories.length > 0 ? (
-              filteredCategories.map((category, categoryIndex) => {
-                const categoryId = category.title
-                  .toLowerCase()
-                  .replaceAll(" ", "-")
-                  .replaceAll("&", "");
-
-                return (
-                  <div
-                    key={category.title}
-                    id={categoryId}
-                    className="scroll-mt-28"
-                  >
-                    <Reveal>
-                      <div className="mb-6 flex items-center gap-3 border-b border-slate-100 pb-4">
-                        <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-600 text-sm font-bold text-white shadow-md shadow-blue-600/20">
-                          {String(categoryIndex + 1).padStart(2, "0")}
-                        </span>
-                        <div>
-                          <h3 className="font-display text-xl font-bold text-slate-900">
-                            {category.title}
-                          </h3>
-                          <p className="text-xs text-slate-500">
-                            {category.items.length} specialized solutions available
-                          </p>
-                        </div>
+              filteredCategories.map((category, categoryIndex) => (
+                <div
+                  key={category.id}
+                  id={category.id}
+                  className="scroll-mt-28"
+                >
+                  <Reveal>
+                    <div className="mb-6 flex items-center gap-3 border-b border-slate-100 pb-4">
+                      <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-600 text-sm font-bold text-white shadow-md shadow-blue-600/20">
+                        {String(categoryIndex + 1).padStart(2, "0")}
+                      </span>
+                      <div>
+                        <h3 className="font-display text-xl font-bold text-slate-900">
+                          {category.title}
+                        </h3>
+                        <p className="text-xs text-slate-500">
+                          {category.items.length} specialized solutions available
+                        </p>
                       </div>
-                    </Reveal>
-
-                    <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-                      {category.items.map((item, index) => (
-                        <PriceCardWhite
-                          key={item.name}
-                          item={item}
-                          delay={(index % 6) * 0.04}
-                        />
-                      ))}
                     </div>
+                  </Reveal>
+
+                  <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                    {category.items.map((item, index) => (
+                      <PriceCardWhite
+                        key={item.id}
+                        item={item}
+                        delay={(index % 6) * 0.04}
+                      />
+                    ))}
                   </div>
-                );
-              })
+                </div>
+              ))
             ) : (
               <div className="py-16 text-center text-slate-500">
                 <FiSearch className="mx-auto mb-3 text-slate-300" size={32} />
@@ -658,10 +672,7 @@ export default function PricingWhite() {
                   No services matching "<strong>{searchQuery}</strong>"
                 </p>
                 <button
-                  onClick={() => {
-                    setSearchQuery("");
-                    setSelectedCategory("all");
-                  }}
+                  onClick={handleClear}
                   className="mt-3 text-xs font-semibold text-blue-600 hover:underline"
                 >
                   Clear search and filters
@@ -735,12 +746,7 @@ export default function PricingWhite() {
                 </p>
 
                 <div className="mt-8 grid gap-4 sm:grid-cols-2">
-                  {[
-                    [FiTarget, "Result-Driven Strategies"],
-                    [FiShield, "Transparent Auditing & Pricing"],
-                    [FiUsers, "Dedicated Account Managers"],
-                    [FiHeadphones, "24/7 Operations Support"],
-                  ].map(([Icon, label]) => (
+                  {valueProps.map(({ icon: Icon, label }) => (
                     <div
                       key={label}
                       className="flex items-center gap-3 rounded-xl border border-slate-200/80 bg-white p-4 shadow-sm"
@@ -760,6 +766,7 @@ export default function PricingWhite() {
         </Container>
       </section>
 
+      {/* CTA Section */}
       <section className="relative bg-white py-20">
         <Container>
           <Reveal>
