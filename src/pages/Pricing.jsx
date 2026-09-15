@@ -760,7 +760,6 @@ export default function PricingWhite() {
         </Container>
       </section>
 
-      {/* Call To Action Footer Banner */}
       <section className="relative bg-white py-20">
         <Container>
           <Reveal>
