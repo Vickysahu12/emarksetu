@@ -122,8 +122,8 @@ export default function Footer() {
             © {new Date().getFullYear()} eMark Setu Private Limited. All rights reserved.
           </p>
           <div className="flex gap-5 text-[12.5px] text-slate-500">
-            <a href="#" className="transition-colors hover:text-blue-400">Privacy Policy</a>
-            <a href="#" className="transition-colors hover:text-blue-400">Terms of Service</a>
+            <Link to="/privacy-policy" className="transition-colors hover:text-blue-400">Privacy Policy</Link>
+            <Link to="/terms-of-service" className="transition-colors hover:text-blue-400">Terms of Service</Link>
           </div>
         </div>
       </Container>
