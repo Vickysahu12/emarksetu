@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { motion } from "framer-motion";
 import { FaCheckDouble } from "react-icons/fa";
 import {
   FiUsers,
@@ -58,15 +59,14 @@ const encompassing = [
   "Order Management",
   "Customer Support",
   "Procurement",
-  "Reconciliation",
   "Automated Tools",
   "Digital Marketing & Promotion",
 ];
 
 const stats = [
-  { value: "15+", label: "Team Members", icon: FiUsers },
-  { value: "250+", label: "Happy Clients", icon: FiAward },
-  { value: "150+", label: "Integrations", icon: FiGlobe },
+  { value: "450+", label: "Team Members", icon: FiUsers },
+  { value: "950+", label: "Happy Clients", icon: FiAward },
+  { value: "200+", label: "Integrations", icon: FiGlobe },
 ];
 
 const values = [
@@ -113,8 +113,30 @@ function CheckItem({ children }) {
   );
 }
 
+// Animation variants specifically for Our Story Grid
+const storyGridContainer = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.12,
+    },
+  },
+};
+
+const storyCardVariant = {
+  hidden: { opacity: 0, y: 25, scale: 0.96 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      duration: 0.5,
+      ease: [0.25, 0.1, 0.25, 1],
+    },
+  },
+};
+
 export default function AboutUs() {
-  // Google Organization Schema for Local Authority
   const schemaData = {
     "@context": "https://schema.org",
     "@type": "Organization",
@@ -258,49 +280,94 @@ export default function AboutUs() {
                 </div>
               </Reveal>
 
-              <Reveal delay={0.1}>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="relative flex aspect-square flex-col justify-between overflow-hidden rounded-3xl bg-blue-600 p-6 shadow-lg shadow-blue-600/10 transition-transform hover:scale-[1.02]">
+              {/* ANIMATED GRID CARDS */}
+              <motion.div
+                variants={storyGridContainer}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-50px" }}
+                className="grid grid-cols-2 gap-4"
+              >
+                <motion.div
+                  variants={storyCardVariant}
+                  whileHover={{ y: -6, scale: 1.02 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                  className="relative flex aspect-square flex-col justify-between overflow-hidden rounded-3xl bg-blue-600 p-6 shadow-lg shadow-blue-600/10"
+                >
+                  <motion.div
+                    whileHover={{ scale: 1.15, rotate: 5 }}
+                    transition={{ type: "spring", stiffness: 400 }}
+                  >
                     <FiUsers size={36} className="text-white" />
-                    <div>
-                      <p className="text-4xl font-black text-white">15+</p>
-                      <p className="mt-1 text-[12px] font-medium text-blue-100">
-                        People building better solutions
-                      </p>
-                    </div>
+                  </motion.div>
+                  <div>
+                    <p className="text-4xl font-black text-white">15+</p>
+                    <p className="mt-1 text-[12px] font-medium text-blue-100">
+                      People building better solutions
+                    </p>
                   </div>
+                </motion.div>
 
-                  <div className="flex aspect-square flex-col justify-between rounded-3xl bg-slate-900 p-6 shadow-lg transition-transform hover:scale-[1.02]">
+                <motion.div
+                  variants={storyCardVariant}
+                  whileHover={{ y: -6, scale: 1.02 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                  className="flex aspect-square flex-col justify-between rounded-3xl bg-slate-900 p-6 shadow-lg"
+                >
+                  <motion.div
+                    whileHover={{ scale: 1.15, rotate: -5 }}
+                    transition={{ type: "spring", stiffness: 400 }}
+                  >
                     <FiCoffee size={36} className="text-blue-400" />
-                    <div>
-                      <p className="text-2xl font-bold text-white">Young</p>
-                      <p className="mt-1 text-[12px] text-slate-400">
-                        Curious minds. Big ideas.
-                      </p>
-                    </div>
+                  </motion.div>
+                  <div>
+                    <p className="text-2xl font-bold text-white">Young</p>
+                    <p className="mt-1 text-[12px] text-slate-400">
+                      Curious minds. Big ideas.
+                    </p>
                   </div>
+                </motion.div>
 
-                  <div className="flex aspect-square flex-col justify-between rounded-3xl border border-slate-200 bg-sky-50/70 p-6 shadow-sm transition-transform hover:scale-[1.02]">
+                <motion.div
+                  variants={storyCardVariant}
+                  whileHover={{ y: -6, scale: 1.02 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                  className="flex aspect-square flex-col justify-between rounded-3xl border border-slate-200 bg-sky-50/70 p-6 shadow-sm"
+                >
+                  <motion.div
+                    whileHover={{ scale: 1.15, rotate: 5 }}
+                    transition={{ type: "spring", stiffness: 400 }}
+                  >
                     <FiBarChart2 size={36} className="text-blue-600" />
-                    <div>
-                      <p className="text-3xl font-black text-slate-900">250+</p>
-                      <p className="mt-1 text-[12px] font-medium text-slate-600">
-                        Businesses supported
-                      </p>
-                    </div>
+                  </motion.div>
+                  <div>
+                    <p className="text-3xl font-black text-slate-900">250+</p>
+                    <p className="mt-1 text-[12px] font-medium text-slate-600">
+                      Businesses supported
+                    </p>
                   </div>
+                </motion.div>
 
-                  <div className="flex aspect-square flex-col justify-between rounded-3xl border border-blue-200 bg-blue-50/60 p-6 shadow-sm transition-transform hover:scale-[1.02]">
+                <motion.div
+                  variants={storyCardVariant}
+                  whileHover={{ y: -6, scale: 1.02 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                  className="flex aspect-square flex-col justify-between rounded-3xl border border-blue-200 bg-blue-50/60 p-6 shadow-sm"
+                >
+                  <motion.div
+                    whileHover={{ scale: 1.15, rotate: -5 }}
+                    transition={{ type: "spring", stiffness: 400 }}
+                  >
                     <FiMonitor size={36} className="text-blue-600" />
-                    <div>
-                      <p className="text-2xl font-bold text-slate-900">360°</p>
-                      <p className="mt-1 text-[12px] font-medium text-slate-600">
-                        End-to-end ecommerce solutions
-                      </p>
-                    </div>
+                  </motion.div>
+                  <div>
+                    <p className="text-2xl font-bold text-slate-900">360°</p>
+                    <p className="mt-1 text-[12px] font-medium text-slate-600">
+                      End-to-end ecommerce solutions
+                    </p>
                   </div>
-                </div>
-              </Reveal>
+                </motion.div>
+              </motion.div>
             </div>
           </Container>
         </section>

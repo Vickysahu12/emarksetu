@@ -49,9 +49,13 @@ export default function Navbar() {
       <Container>
         <nav className="flex h-[76px] items-center justify-between">
           <Link to="/" className="flex items-center gap-2.5">
-            <span className="flex h-11 items-center rounded-lg bg-white/95 px-2 py-1.5 shadow-sm ring-1 ring-navy-900/[0.04]">
-              <img src={logo} alt="eMark Setu" className="h-7 w-auto object-contain" />
-            </span>
+            <span className="flex items-center rounded-full bg-white/10 px-3 py-1.5 backdrop-blur-md">
+  <img 
+    src={logo} 
+    alt="eMark Setu" 
+    className="h-7 w-auto object-contain brightness-125 contrast-125" 
+  />
+</span>
           </Link>
 
           <ul className="hidden items-center gap-9 md:flex">

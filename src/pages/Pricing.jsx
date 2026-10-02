@@ -22,6 +22,7 @@ import {
   FiCheckCircle,
   FiZap,
   FiXCircle,
+  FiExternalLink,
 } from "react-icons/fi";
 
 import SEO from "../components/SEO";
@@ -130,7 +131,7 @@ const categories = [
         id: "dev-web",
         name: "Ecommerce Website Development",
         desc: "Custom high-converting storefronts engineered for fast performance, high UX, and flawless checkout flow.",
-        price: "₹29,500",
+        price: "₹40,000",
         unit: "Mo",
         icon: FiGlobe,
       },
@@ -138,15 +139,15 @@ const categories = [
         id: "dev-app",
         name: "Mobile App Development",
         desc: "Native Android & iOS applications crafted for hyper-engagement and frictionless consumer purchasing.",
-        price: "₹29,500",
+        price: "₹50,000",
         unit: "Mo",
         icon: FiSmartphone,
       },
       {
         id: "dev-social",
-        name: "Social Media Handling",
+        name: "Digital Marketing service",
         desc: "Complete social presence management, content strategy, and viral social commerce execution.",
-        price: "₹9,500",
+        price: "₹15,000",
         unit: "Mo",
         icon: FiShare2,
       },
@@ -225,7 +226,7 @@ const categories = [
         id: "ops-reconciliation",
         name: "Payment Reconciliation",
         desc: "In-depth financial auditing to track missing returns, marketplace fees, and overcharges.",
-        price: "₹3,540",
+        price: "₹10,000",
         unit: "Mo",
         icon: FiFileText,
       },
@@ -246,7 +247,7 @@ const categories = [
         id: "reg-trademark",
         name: "Trademark Registration",
         desc: "Protect your IP and unlock brand registry perks across major platforms like Amazon.",
-        price: "₹7,999",
+        price: "₹999",
         unit: "Reg",
         icon: FiAward,
       },
@@ -489,13 +490,13 @@ export default function PricingWhite() {
                 </div>
                 <div>
                   <p className="font-display text-2xl font-black text-white sm:text-3xl">
-                    250+
+                    950+
                   </p>
                   <p className="mt-0.5 text-xs text-slate-400">Happy Clients</p>
                 </div>
                 <div>
                   <p className="font-display text-2xl font-black text-white sm:text-3xl">
-                    5+ Yrs
+                    10+ Yrs
                   </p>
                   <p className="mt-0.5 text-xs text-slate-400">Excellence</p>
                 </div>
@@ -663,6 +664,23 @@ export default function PricingWhite() {
                       />
                     ))}
                   </div>
+
+                  {/* Added View More Button Specifically for Registrations Section */}
+                  {category.id === "registrations" && (
+                    <Reveal delay={0.1}>
+                      <div className="mt-8 flex justify-center">
+                        <a
+                          href="https://www.legalerasolution.com/services"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-6 py-3 text-xs font-semibold text-white shadow-md shadow-blue-600/20 transition-all hover:bg-blue-700 hover:shadow-lg"
+                        >
+                          View More Registration Services
+                          <FiExternalLink size={14} />
+                        </a>
+                      </div>
+                    </Reveal>
+                  )}
                 </div>
               ))
             ) : (
