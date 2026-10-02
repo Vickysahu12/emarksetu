@@ -5,10 +5,10 @@ import { Container, Eyebrow, PrimaryButton, Reveal } from "./ui";
 import GrowthLine from "./GrowthLine";
 
 const stats = [
-  { icon: FiUsers, value: 250, suffix: "+", label: "Happy Clients" },
-  { icon: FiTrendingUp, value: 350, suffix: "+", label: "Projects Delivered" },
+  { icon: FiUsers, value: 950, suffix: "+", label: "Manage Clients" },
+  { icon: FiTrendingUp, value: 350, suffix: "+", label: "Projects Delivers" },
   { icon: FiRepeat, value: 98, suffix: "%", label: "Client Retention" },
-  { icon: FiAward, value: 8, suffix: "+", label: "Years Experience" },
+  { icon: FiAward, value: 10, suffix: "+", label: "Years Experience" },
 ];
 
 const points = [

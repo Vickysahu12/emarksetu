@@ -353,7 +353,7 @@ export default function PricingWhite() {
   const pageTitle = "Transparent E-commerce Pricing & Services | eMark Setu";
   const pageDescription =
     "Explore transparent pricing for Amazon, Flipkart, Myntra account management, cataloging, website development, PPC marketing, and seller compliance.";
-  const canonicalUrl = "https://yourwebsite.com/pricing";
+  const canonicalUrl = "https://www.emarksetu.com/pricing";
 
   // Fixed valid Schema.org structure
   const schemaData = useMemo(

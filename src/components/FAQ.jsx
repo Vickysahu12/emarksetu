@@ -14,7 +14,11 @@ const faqs = [
   },
   {
     q: "What platforms do you manage ads on?",
-    a: "We primarily manage Facebook, Instagram and Google Ads, with support for Pinterest and TikTok depending on your brand and audience. We'll recommend the right mix based on where your customers actually are.",
+    a: "We primarily manage Facebook, Instagram and Google Ads to build your brand presence, reach the right audience, and generate consistent business growth.",
+  },
+  {
+    q: "What Marketplace do you manage?",
+    a: "We primarily manage major marketplaces like Amazon, Flipkart, Meesho and Myntra, helping with product listings, marketplace management, promotions, and overall sales growth.",
   },
   {
     q: "Will I get reports on how my campaigns are performing?",

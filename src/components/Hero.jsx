@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { FiStar, FiShoppingBag, FiPercent, FiDollarSign } from "react-icons/fi";
 import { Container, Eyebrow, PrimaryButton } from "./ui";
-import bgImage from "../assets/image/bg-image.webp"
+import bgImage from "../assets/image/bg-image.webp";
 
 const floatCard = {
   animate: (delay) => ({
@@ -13,10 +13,10 @@ const floatCard = {
 export default function Hero() {
   return (
     <section
-  id="home"
-  className="relative overflow-hidden bg-navy-900 bg-cover bg-center bg-no-repeat pt-[200px] pb-20 sm:pb-28"
-  style={{ backgroundImage: `url(${bgImage})` }}
->
+      id="home"
+      className="relative overflow-hidden bg-navy-900 bg-cover bg-center bg-no-repeat pt-[200px] pb-20 sm:pb-28"
+      style={{ backgroundImage: `url(${bgImage})` }}
+    >
       {/* ambient mesh */}
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute -top-40 right-[-10%] h-[520px] w-[520px] rounded-full bg-blue-600/25 blur-[120px]" />
@@ -72,27 +72,27 @@ export default function Hero() {
             transition={{ duration: 0.7, delay: 0.3 }}
             className="mt-9 flex flex-wrap items-center gap-5"
           >
-            <PrimaryButton href="#contact">Get Started</PrimaryButton>
-            <a href="#services" className="text-sm font-semibold text-white/80 underline-offset-4 hover:text-white hover:underline">
+            {/* Yaha href change kiya gaya hai */}
+            <PrimaryButton href="/contact-us">Get Started</PrimaryButton>
+            <a href="/pricing" className="text-sm font-semibold text-white/80 underline-offset-4 hover:text-white hover:underline">
               Explore our services
             </a>
           </motion.div>
         </div>
 
         {/* right visual */}
-        {/* right visual */}
-<motion.div
-  initial={{ opacity: 0, x: 35, scale: 0.92 }}
-  animate={{ opacity: 1, x: 0, scale: 1 }}
-  transition={{
-    duration: 0.8,
-    delay: 0.25,
-    ease: [0.22, 1, 0.36, 1],
-  }}
-  className="relative mx-auto w-full max-w-[560px]"
->
-  {/* soft glow behind illustration */}
-  <div className="pointer-events-none absolute left-1/2 top-1/2 h-[70%] w-[70%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-600/20 blur-[100px]" />
+        <motion.div
+          initial={{ opacity: 0, x: 35, scale: 0.92 }}
+          animate={{ opacity: 1, x: 0, scale: 1 }}
+          transition={{
+            duration: 0.8,
+            delay: 0.25,
+            ease: [0.22, 1, 0.36, 1],
+          }}
+          className="relative mx-auto w-full max-w-[560px]"
+        >
+          {/* soft glow behind illustration */}
+          <div className="pointer-events-none absolute left-1/2 top-1/2 h-[70%] w-[70%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-600/20 blur-[100px]" />
         </motion.div>
       </Container>
     </section>

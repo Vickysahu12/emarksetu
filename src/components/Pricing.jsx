@@ -4,28 +4,30 @@ import { Container, Eyebrow, PrimaryButton, GhostButton, Reveal } from "./ui";
 const plans = [
   {
     name: "Starter",
-    price: "₹25,000",
+    price: "₹10,000",
     period: "/month",
-    tagline: "For new stores getting off the ground.",
+    tagline: "Dedicated Myntra Marketplace Management",
     features: [
-      "Store setup & optimisation",
-      "1 ad platform managed",
-      "Monthly performance report",
-      "Email support",
+      "Only Myntra Platform Managed",
+      "Myntra Store Setup & Onboarding",
+      "Product Listing & Cataloguing",
+      "Myntra Ads & Promotion Management",
+      "Monthly Performance Report",
     ],
     highlight: false,
   },
   {
     name: "Growth",
-    price: "₹55,000",
+    price: "₹25,000",
     period: "/month",
-    tagline: "For brands ready to scale spend and revenue.",
+    tagline: "For brands ready to scale across all e-commerce platforms.",
     features: [
-      "Everything in Starter",
-      "2 ad platforms managed",
-      "Creative production included",
-      "Weekly strategy calls",
-      "Dedicated account manager",
+      "All E-commerce Platforms Managed",
+      "Amazon, Flipkart, Myntra & Meesho",
+      "Inventory & Order Management",
+      "Creative Production & Ad Campaigning",
+      "Weekly Strategy Calls & Reporting",
+      "Dedicated Account Manager",
     ],
     highlight: true,
   },
@@ -33,13 +35,14 @@ const plans = [
     name: "Scale",
     price: "Custom",
     period: "",
-    tagline: "For established brands with serious ad spend.",
+    tagline: "For established businesses operating with multiple GST accounts.",
     features: [
-      "Everything in Growth",
-      "Full-funnel management",
-      "Custom retention flows",
-      "Priority support & SLAs",
-      "Quarterly strategy review",
+      "Multi-GST & Multi-Entity Management",
+      "Multiple Platform Integrations",
+      "Full-Funnel Ecommerce Scaling",
+      "Custom Financial Reconciliation Flows",
+      "Priority SLA Support & Dedicated Team",
+      "Quarterly Growth & Strategy Review",
     ],
     highlight: false,
   },
@@ -113,11 +116,11 @@ export default function Pricing() {
 
                 <div className="mt-7">
                   {plan.highlight ? (
-                    <PrimaryButton href="#contact" className="w-full justify-center">
+                    <PrimaryButton href="/contact-us" className="w-full justify-center">
                       Get Started
                     </PrimaryButton>
                   ) : (
-                    <GhostButton href="#contact" className="w-full justify-center border border-navy-900/10 text-navy-900">
+                    <GhostButton href="/contact-us" className="w-full justify-center border border-navy-900/10 text-navy-900">
                       Get Started
                     </GhostButton>
                   )}
