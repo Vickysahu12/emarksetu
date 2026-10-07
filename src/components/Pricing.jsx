@@ -1,5 +1,67 @@
-import { FiCheck, FiZap } from "react-icons/fi";
+import { FiCheck, FiZap, FiLayers } from "react-icons/fi";
 import { Container, Eyebrow, PrimaryButton, GhostButton, Reveal } from "./ui";
+import LogoTile from "./LogoTile";
+
+const growthPlatforms = ["amazon-in", "flipkart", "myntra", "meesho", "ajio", "nykaa", "snapdeal", "tatacliq"];
+
+const gstins = [
+  { state: "Gujarat", code: "24" },
+  { state: "Maharashtra", code: "27" },
+  { state: "Delhi", code: "07" },
+];
+
+// Small visual at the top of each plan so the difference reads at a glance.
+function PlanVisual({ name }) {
+  if (name === "Starter") {
+    return (
+      <div className="mt-5 flex items-center gap-3 rounded-xl border border-navy-900/[0.06] bg-sky-100/60 p-3">
+        <span className="flex h-11 w-16 flex-none items-center justify-center rounded-lg bg-white p-1.5 shadow-sm">
+          <LogoTile slug="myntra" className="h-full w-full" />
+        </span>
+        <div className="leading-tight">
+          <p className="text-[12.5px] font-bold text-navy-900">Myntra, done properly</p>
+          <p className="mt-0.5 text-[11.5px] text-slate-500">One marketplace, full focus</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (name === "Growth") {
+    return (
+      <div className="mt-5 rounded-xl bg-white/[0.04] p-3 ring-1 ring-white/10">
+        <div className="grid grid-cols-4 gap-1.5">
+          {growthPlatforms.map((slug) => (
+            <span key={slug} className="flex h-9 items-center justify-center rounded-md bg-white px-1.5">
+              <LogoTile slug={slug} className="h-5 w-full" />
+            </span>
+          ))}
+        </div>
+        <p className="mt-2.5 text-center text-[11px] font-medium text-slate-400">
+          Every major marketplace, one team
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="mt-5 rounded-xl border border-navy-900/[0.06] bg-sky-100/60 p-3">
+      <div className="flex flex-col gap-1.5">
+        {gstins.map((g) => (
+          <div key={g.code} className="flex items-center justify-between rounded-md bg-white px-2.5 py-1.5 shadow-sm">
+            <span className="font-mono text-[10.5px] font-semibold tracking-tight text-navy-900">
+              GSTIN {g.code}•••••••••Z
+            </span>
+            <span className="text-[10.5px] text-slate-500">{g.state}</span>
+          </div>
+        ))}
+      </div>
+      <p className="mt-2.5 flex items-center justify-center gap-1.5 text-[11px] font-medium text-slate-500">
+        <FiLayers size={11} className="text-blue-600" />
+        All entities, one dashboard
+      </p>
+    </div>
+  );
+}
 
 const plans = [
   {
@@ -35,12 +97,12 @@ const plans = [
     name: "Scale",
     price: "Custom",
     period: "",
-    tagline: "For established businesses operating with multiple GST accounts.",
+    tagline: "For businesses selling under multiple GST numbers across several platforms.",
     features: [
-      "Multi-GST & Multi-Entity Management",
-      "Multiple Platform Integrations",
-      "Full-Funnel Ecommerce Scaling",
-      "Custom Financial Reconciliation Flows",
+      "Multiple GSTINs managed under one account",
+      "Every platform, for every GST entity",
+      "Separate catalogues, stock & billing per GSTIN",
+      "Consolidated sales & payout reporting",
       "Priority SLA Support & Dedicated Team",
       "Quarterly Growth & Strategy Review",
     ],
@@ -101,7 +163,9 @@ export default function Pricing() {
                   {plan.tagline}
                 </p>
 
-                <div className={`mt-6 flex flex-col gap-3 border-t pt-6 ${plan.highlight ? "border-white/10" : "border-navy-900/[0.06]"}`}>
+                <PlanVisual name={plan.name} />
+
+                <div className={`mt-6 flex flex-1 flex-col gap-3 border-t pt-6 ${plan.highlight ? "border-white/10" : "border-navy-900/[0.06]"}`}>
                   {plan.features.map((f) => (
                     <div key={f} className="flex items-start gap-2.5">
                       <span className={`mt-0.5 flex h-4 w-4 flex-none items-center justify-center rounded-full ${plan.highlight ? "bg-blue-600 text-white" : "bg-blue-600/10 text-blue-600"}`}>
@@ -116,11 +180,14 @@ export default function Pricing() {
 
                 <div className="mt-7">
                   {plan.highlight ? (
-                    <PrimaryButton href="/contact-us" className="w-full justify-center">
+                    <PrimaryButton href="/contact-us#inquiry" className="w-full justify-center">
                       Get Started
                     </PrimaryButton>
                   ) : (
-                    <GhostButton href="/contact-us" className="w-full justify-center border border-navy-900/10 text-navy-900">
+                    <GhostButton
+                      href="/contact-us#inquiry"
+                      className="w-full justify-center border border-navy-900/10 !py-3 text-navy-900 transition-colors hover:border-blue-600 hover:text-blue-600"
+                    >
                       Get Started
                     </GhostButton>
                   )}

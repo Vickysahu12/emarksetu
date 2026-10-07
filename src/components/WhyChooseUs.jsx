@@ -1,12 +1,12 @@
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-import { FiUsers, FiTrendingUp, FiRepeat, FiAward, FiDatabase, FiEye, FiHeadphones, FiTarget, FiArrowRight } from "react-icons/fi";
+import { FiUsers, FiTrendingUp, FiRepeat, FiAward, FiDatabase, FiEye, FiHeadphones, FiTarget } from "react-icons/fi";
 import { Container, Eyebrow, PrimaryButton, Reveal } from "./ui";
 import GrowthLine from "./GrowthLine";
 
 const stats = [
-  { icon: FiUsers, value: 950, suffix: "+", label: "Manage Clients" },
-  { icon: FiTrendingUp, value: 350, suffix: "+", label: "Projects Delivers" },
+  { icon: FiUsers, value: 950, suffix: "+", label: "Clients Managed" },
+  { icon: FiTrendingUp, value: 350, suffix: "+", label: "Projects Delivered" },
   { icon: FiRepeat, value: 98, suffix: "%", label: "Client Retention" },
   { icon: FiAward, value: 10, suffix: "+", label: "Years Experience" },
 ];
@@ -124,11 +124,10 @@ export default function WhyChooseUs() {
                   actually work.
                 </p>
                 <PrimaryButton
-                  href="#contact"
-                  className="mt-6 inline-flex items-center gap-2 !bg-white !text-navy-900 !shadow-none hover:!bg-sky-50"
+                  href="/contact-us#inquiry"
+                  className="mt-6 !bg-white !text-navy-900 !shadow-none hover:!bg-sky-50"
                 >
                   Get Free Consultation
-                  <FiArrowRight className="transition-transform duration-300 group-hover:translate-x-1" size={15} />
                 </PrimaryButton>
               </div>
             </Reveal>

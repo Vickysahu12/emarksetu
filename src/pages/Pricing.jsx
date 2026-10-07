@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useCallback } from "react";
+import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import {
   FiGlobe,
@@ -23,67 +24,19 @@ import {
   FiZap,
   FiXCircle,
   FiExternalLink,
+  FiLayers,
 } from "react-icons/fi";
 
 import SEO from "../components/SEO";
-import hero from "../assets/image/bg-image.webp";
+import hero from "../assets/image/hero-bg.webp";
+import MarketplaceLogo from "../components/LogoTile";
 import { Container, Eyebrow, PrimaryButton, Reveal } from "../components/ui";
-
-const LOGO_URLS = {
-  amazon: "https://cdn.simpleicons.org/amazon/FF9900",
-  flipkart: "https://cdn.simpleicons.org/flipkart/2874F0",
-  myntra: "https://cdn.simpleicons.org/myntra/FF3F6C",
-  nykaa: "https://cdn.simpleicons.org/nykaa/FC2779",
-  ajio: "https://cdn.simpleicons.org/shopify/7AB55C",
-  tatacliq: "https://cdn.simpleicons.org/tata/000000",
-  snapdeal: "https://cdn.simpleicons.org/snapdeal/E40046",
-  meesho: "https://cdn.simpleicons.org/meesho/F43397",
-  shopsy: "https://cdn.simpleicons.org/flipkart/2874F0",
-  shopee: "https://cdn.simpleicons.org/shopee/EE4D2D",
-  paytm: "https://cdn.simpleicons.org/paytm/002E6E",
-  ebay: "https://cdn.simpleicons.org/ebay/E53238",
-  etsy: "https://cdn.simpleicons.org/etsy/F1641E",
-  shopify: "https://cdn.simpleicons.org/shopify/7AB55C",
-};
 
 const slugify = (str) =>
   str
     .toLowerCase()
     .replace(/[^a-z0-9]/g, "-")
     .replace(/-+/g, "-");
-
-function LogoTile({ logoKey, name, className }) {
-  const [hasError, setHasError] = useState(false);
-  const logoUrl = LOGO_URLS[logoKey];
-
-  const initials = useMemo(() => {
-    if (!name) return "E";
-    return name
-      .split(" ")
-      .map((w) => w[0])
-      .join("")
-      .slice(0, 2)
-      .toUpperCase();
-  }, [name]);
-
-  if (!logoUrl || hasError) {
-    return (
-      <div className="flex h-full w-full items-center justify-center font-bold text-xs text-blue-600 uppercase tracking-wider bg-blue-50 rounded-lg">
-        {initials}
-      </div>
-    );
-  }
-
-  return (
-    <img
-      src={logoUrl}
-      alt={`${name} Logo`}
-      onError={() => setHasError(true)}
-      className={className || "h-full w-full object-contain"}
-      loading="lazy"
-    />
-  );
-}
 
 const accountMgmt = (id, name, price, logoKey) => ({
   id,
@@ -98,10 +51,10 @@ const categories = [
   {
     title: "Account Management",
     items: [
-      accountMgmt("mgmt-amazon", "Amazon", "₹5,900", "amazon"),
+      accountMgmt("mgmt-amazon", "Amazon", "₹5,900", "amazon-in"),
       accountMgmt("mgmt-flipkart", "Flipkart", "₹5,900", "flipkart"),
       accountMgmt("mgmt-myntra", "Myntra", "₹11,800", "myntra"),
-      accountMgmt("mgmt-nykaa", "Nykaa Fashion", "₹11,800", "nykaa"),
+      accountMgmt("mgmt-nykaa", "Nykaa Fashion", "₹11,800", "nykaa-fashion"),
       accountMgmt("mgmt-ajio", "Ajio", "₹5,900", "ajio"),
       accountMgmt("mgmt-tatacliq", "Tata CLiQ", "₹9,999", "tatacliq"),
       accountMgmt("mgmt-snapdeal", "Snapdeal", "₹2,500", "snapdeal"),
@@ -109,12 +62,12 @@ const categories = [
       accountMgmt("mgmt-shopsy", "Shopsy", "₹2,500", "shopsy"),
       accountMgmt("mgmt-shopee", "Shopee", "₹2,500", "shopee"),
       accountMgmt("mgmt-paytm", "Paytm", "₹2,500", "paytm"),
-      accountMgmt("mgmt-glance", "Glance", "₹2,500", "glance"),
+      accountMgmt("mgmt-glance", "Glance", "₹2,500", "glance-roposo"),
       accountMgmt("mgmt-jiomart", "Jio Mart", "₹2,999", "jiomart"),
       accountMgmt("mgmt-rekkoz", "Rekkoz", "₹2,500", "rekkoz"),
       accountMgmt("mgmt-limeroad", "Limeroad", "₹2,500", "limeroad"),
       {
-        ...accountMgmt("mgmt-amazon-global", "Amazon Global", "₹5,900", "amazon"),
+        ...accountMgmt("mgmt-amazon-global", "Amazon Global", "₹5,900", "amazon-com"),
         name: "Amazon Global Service",
       },
       accountMgmt("mgmt-ebay", "Ebay", "₹5,900", "ebay"),
@@ -132,7 +85,7 @@ const categories = [
         name: "Ecommerce Website Development",
         desc: "Custom high-converting storefronts engineered for fast performance, high UX, and flawless checkout flow.",
         price: "₹40,000",
-        unit: "Mo",
+        unit: "Project",
         icon: FiGlobe,
       },
       {
@@ -140,13 +93,13 @@ const categories = [
         name: "Mobile App Development",
         desc: "Native Android & iOS applications crafted for hyper-engagement and frictionless consumer purchasing.",
         price: "₹50,000",
-        unit: "Mo",
+        unit: "Project",
         icon: FiSmartphone,
       },
       {
         id: "dev-social",
-        name: "Digital Marketing service",
-        desc: "Complete social presence management, content strategy, and viral social commerce execution.",
+        name: "Digital Marketing Service",
+        desc: "Complete social media handling, content strategy, Meta & Google ads and social commerce execution.",
         price: "₹15,000",
         unit: "Mo",
         icon: FiShare2,
@@ -162,7 +115,7 @@ const categories = [
         desc: "Custom immersive A+ storefront designs that captivate shoppers and boost brand trust.",
         price: "₹5,900",
         unit: "Page",
-        logoKey: "amazon",
+        logoKey: "amazon-storefront",
       },
       {
         id: "store-launch",
@@ -187,7 +140,7 @@ const categories = [
     items: [
       {
         id: "mktg-digital",
-        name: "Digital Marketing Service",
+        name: "PPC & Performance Ads",
         desc: "Hyper-targeted paid advertising (PPC), social ads, and automated email funnel strategies.",
         price: "₹5,900",
         unit: "Mo",
@@ -249,6 +202,7 @@ const categories = [
         desc: "Protect your IP and unlock brand registry perks across major platforms like Amazon.",
         price: "₹999",
         unit: "Reg",
+        note: "+ Govt. fee",
         icon: FiAward,
       },
       {
@@ -294,12 +248,8 @@ function PriceCardWhite({ item, delay = 0 }) {
         <div>
           <div className="flex items-center justify-between">
             {item.logoKey ? (
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-slate-100 bg-slate-50 p-2.5 shadow-inner overflow-hidden">
-                <LogoTile
-                  logoKey={item.logoKey}
-                  name={item.name}
-                  className="h-full w-full object-contain"
-                />
+              <div className="flex h-12 w-24 items-center justify-center overflow-hidden rounded-xl border border-slate-100 bg-white p-2">
+                <MarketplaceLogo slug={item.logoKey} className="h-full w-full" />
               </div>
             ) : (
               <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-50 text-blue-600 transition-colors group-hover:bg-blue-600 group-hover:text-white">
@@ -332,15 +282,18 @@ function PriceCardWhite({ item, delay = 0 }) {
                 /{item.unit}
               </span>
             </p>
+            {item.note && (
+              <p className="mt-0.5 text-[10.5px] font-medium text-amber-600">{item.note}</p>
+            )}
           </div>
 
-          <a
-            href="/contact-us"
-            aria-label={`Inquire about ${item.name}`}
-            className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 bg-slate-50 text-slate-600 transition-all hover:border-blue-600 hover:bg-blue-600 hover:text-white"
+          <Link
+            to={`/contact-us?service=${encodeURIComponent(item.name)}#inquiry`}
+            aria-label={`Enquire about ${item.name}`}
+            className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 bg-slate-50 text-slate-600 transition-all group-hover:border-blue-600 group-hover:bg-blue-600 group-hover:text-white"
           >
             <FiArrowRight size={15} />
-          </a>
+          </Link>
         </div>
       </div>
     </Reveal>
@@ -354,7 +307,7 @@ export default function PricingWhite() {
   const pageTitle = "Transparent E-commerce Pricing & Services | eMark Setu";
   const pageDescription =
     "Explore transparent pricing for Amazon, Flipkart, Myntra account management, cataloging, website development, PPC marketing, and seller compliance.";
-  const canonicalUrl = "https://www.emarksetu.com/pricing";
+  const canonicalUrl = "https://emarksetu.com/pricing";
 
   // Fixed valid Schema.org structure
   const schemaData = useMemo(
@@ -442,7 +395,7 @@ export default function PricingWhite() {
         className="relative overflow-hidden bg-slate-900 bg-cover bg-center bg-no-repeat pb-24 pt-36 sm:pb-32 sm:pt-44"
         style={{ backgroundImage: `url(${hero})` }}
       >
-        <div className="pointer-events-none absolute inset-0 bg-slate-900/85" />
+        <div className="pointer-events-none absolute inset-0 bg-navy-950/40" />
         <div className="pointer-events-none absolute -right-20 -top-20 h-[500px] w-[500px] rounded-full bg-blue-500/20 blur-[130px]" />
 
         <Container className="relative z-10">
@@ -464,12 +417,8 @@ export default function PricingWhite() {
               </p>
 
               <div className="mt-8 flex flex-wrap justify-center gap-4">
-                <PrimaryButton
-                  href="/contact-us"
-                  className="shadow-lg shadow-blue-600/30"
-                >
+                <PrimaryButton href="/contact-us#inquiry" className="shadow-lg shadow-blue-600/30">
                   Get Free Consultation
-                  <FiArrowRight size={16} />
                 </PrimaryButton>
 
                 <a
@@ -573,7 +522,7 @@ export default function PricingWhite() {
           </Reveal>
 
           {/* Dynamic Filter Controls */}
-          <div className="sticky top-6 z-30 my-10 flex flex-col gap-4 rounded-2xl border border-slate-200 bg-white/90 p-3 shadow-lg backdrop-blur-xl sm:flex-row sm:items-center sm:justify-between">
+          <div className="sticky top-[84px] z-30 my-10 flex flex-col gap-4 rounded-2xl border border-slate-200 bg-white/90 p-3 shadow-lg backdrop-blur-xl sm:flex-row sm:items-center sm:justify-between">
             <div className="no-scrollbar flex overflow-x-auto gap-2">
               <button
                 onClick={() => setSelectedCategory("all")}
@@ -617,7 +566,7 @@ export default function PricingWhite() {
                 placeholder="Search services..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full rounded-xl border border-slate-200 bg-slate-50 py-1.5 pl-9 pr-8 text-xs text-slate-800 transition focus:border-blue-600 focus:bg-white focus:outline-none"
+                className="w-full rounded-xl border border-slate-200 bg-slate-50 py-2 pl-9 pr-8 text-[16px] sm:text-xs text-slate-800 transition focus:border-blue-600 focus:bg-white focus:outline-none"
               />
               {searchQuery && (
                 <button
@@ -665,20 +614,40 @@ export default function PricingWhite() {
                     ))}
                   </div>
 
-                  {/* Added View More Button Specifically for Registrations Section */}
                   {category.id === "registrations" && (
                     <Reveal delay={0.1}>
-                      <div className="mt-8 flex justify-center">
-                        <a
-                          href="https://www.legalerasolution.com/services"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-6 py-3 text-xs font-semibold text-white shadow-md shadow-blue-600/20 transition-all hover:bg-blue-700 hover:shadow-lg"
-                        >
-                          View More Registration Services
+                      <a
+                        href="https://www.legalerasolution.com/services"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group mt-5 flex flex-col gap-5 rounded-2xl border border-dashed border-blue-300 bg-gradient-to-r from-blue-50 to-sky-50 p-6 transition-all hover:-translate-y-1 hover:border-blue-500 hover:shadow-xl sm:flex-row sm:items-center sm:justify-between"
+                      >
+                        <div className="flex items-start gap-4">
+                          <span className="flex h-12 w-12 flex-none items-center justify-center rounded-xl bg-blue-600 text-white shadow-md shadow-blue-600/20">
+                            <FiLayers size={20} />
+                          </span>
+                          <div>
+                            <p className="font-display text-base font-bold text-slate-900">
+                              More Registration & Legal Services
+                            </p>
+                            <p className="mt-1 max-w-xl text-xs leading-relaxed text-slate-500">
+                              FSSAI, Import Export Code (IEC), Company & LLP incorporation, ISO, copyright and
+                              more, handled by our partner <strong className="text-slate-700">LegalEra</strong>.
+                            </p>
+                            <div className="mt-3 flex flex-wrap gap-1.5">
+                              {["FSSAI", "IEC", "Pvt Ltd / LLP", "ISO", "Copyright", "Udyam"].map((t) => (
+                                <span key={t} className="rounded-md bg-white px-2 py-0.5 text-[10.5px] font-semibold text-slate-600 ring-1 ring-slate-200">
+                                  {t}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                        <span className="inline-flex flex-none items-center gap-2 self-start rounded-xl bg-blue-600 px-5 py-3 text-xs font-semibold text-white shadow-md shadow-blue-600/20 transition-colors group-hover:bg-blue-700 sm:self-center">
+                          Explore on LegalEra
                           <FiExternalLink size={14} />
-                        </a>
-                      </div>
+                        </span>
+                      </a>
                     </Reveal>
                   )}
                 </div>
@@ -806,11 +775,10 @@ export default function PricingWhite() {
                 </div>
 
                 <PrimaryButton
-                  href="/contact-us"
+                  href="/contact-us#inquiry"
                   className="whitespace-nowrap shadow-lg shadow-blue-600/30"
                 >
                   Talk To Our Experts
-                  <FiArrowRight size={15} />
                 </PrimaryButton>
               </div>
             </div>

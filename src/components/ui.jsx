@@ -1,5 +1,15 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import { FiArrowRight } from "react-icons/fi";
+
+const MotionLink = motion.create(Link);
+
+// Internal paths ("/contact-us") go through the router so the page doesn't
+// fully reload; hashes and external URLs stay plain anchors.
+function SmartLink({ href, ...props }) {
+  if (href?.startsWith("/")) return <MotionLink to={href} {...props} />;
+  return <motion.a href={href} {...props} />;
+}
 
 export function Container({ children, className = "" }) {
   return (
@@ -24,9 +34,9 @@ export function Eyebrow({ children, light = false }) {
   );
 }
 
-export function PrimaryButton({ children, href = "#contact", className = "", onClick }) {
+export function PrimaryButton({ children, href = "/contact-us#inquiry", className = "", onClick }) {
   return (
-    <motion.a
+    <SmartLink
       href={href}
       onClick={onClick}
       whileHover={{ y: -2 }}
@@ -35,13 +45,13 @@ export function PrimaryButton({ children, href = "#contact", className = "", onC
     >
       {children}
       <FiArrowRight className="transition-transform duration-300 group-hover:translate-x-1" />
-    </motion.a>
+    </SmartLink>
   );
 }
 
 export function GhostButton({ children, href = "#", className = "" }) {
   return (
-    <motion.a
+    <SmartLink
       href={href}
       whileHover={{ y: -2 }}
       whileTap={{ scale: 0.97 }}
@@ -49,7 +59,22 @@ export function GhostButton({ children, href = "#", className = "" }) {
     >
       {children}
       <FiArrowRight className="transition-transform duration-300 group-hover:translate-x-1" />
-    </motion.a>
+    </SmartLink>
+  );
+}
+
+// Gentle idle "bob" used on illustrations so they feel alive without being
+// distracting. Respects prefers-reduced-motion via the global CSS rule +
+// framer's own reduced-motion handling.
+export function Float({ children, className = "", y = 10, rotate = 0, duration = 6, delay = 0 }) {
+  return (
+    <motion.div
+      className={className}
+      animate={{ y: [0, -y, 0], rotate: [0, rotate, 0] }}
+      transition={{ duration, delay, repeat: Infinity, ease: "easeInOut" }}
+    >
+      {children}
+    </motion.div>
   );
 }
 

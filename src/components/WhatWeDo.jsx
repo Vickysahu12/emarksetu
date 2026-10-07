@@ -10,11 +10,13 @@ import {
   FiCheck,
 } from "react-icons/fi";
 
+import { Link } from "react-router-dom";
 import {
   Container,
   Eyebrow,
   GhostButton,
   Reveal,
+  Float,
 } from "./ui";
 
 import hero2 from "../assets/image/hero2.webp";
@@ -147,6 +149,8 @@ function ProcessModal({ card, onClose }) {
           exit={{ opacity: 0, y: 16, scale: 0.97 }}
           transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
           onClick={(e) => e.stopPropagation()}
+          role="dialog"
+          aria-modal="true"
           className="relative w-full max-w-lg overflow-hidden rounded-2xl bg-white shadow-soft"
         >
           {/* header */}
@@ -193,14 +197,14 @@ function ProcessModal({ card, onClose }) {
               ))}
             </div>
 
-            <a
-              href="#contact"
+            <Link
+              to="/contact-us#inquiry"
               onClick={onClose}
               className="mt-7 flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-5 py-3 text-[13.5px] font-bold text-white transition-colors hover:bg-blue-700"
             >
               <FiCheck size={15} />
               Get Started With This
-            </a>
+            </Link>
           </div>
         </motion.div>
       </motion.div>
@@ -245,7 +249,7 @@ export default function WhatWeDo() {
               giving your business a distinct edge over your competitors.
             </p>
 
-            <GhostButton href="#services" className="mt-7 text-blue-600">
+            <GhostButton href="/pricing" className="mt-7 text-blue-600">
               Our Services
             </GhostButton>
           </Reveal>
@@ -259,11 +263,14 @@ export default function WhatWeDo() {
             {/* Soft background glow */}
             <div className="pointer-events-none absolute left-1/2 top-1/2 h-[70%] w-[70%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/70 blur-3xl" />
 
-            <img
-              src={hero2}
-              alt="eMark Setu store performance and growth strategy"
-              className="relative z-10 h-auto w-full object-contain"
-            />
+            <Float y={12} rotate={-0.8} duration={6.5} delay={0.4} className="relative z-10">
+              <img
+                src={hero2}
+                alt="eMark Setu store performance and growth strategy"
+                loading="lazy"
+                className="h-auto w-full object-contain"
+              />
+            </Float>
           </Reveal>
 
         </div>

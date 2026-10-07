@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
   FiPhone,
@@ -51,8 +52,8 @@ const infoCards = [
 
 const trustStats = [
   { value: "24 hrs", label: "Avg. Response Time" },
-  { value: "15+", label: "Team Members" },
-  { value: "250+", label: "Happy Clients" },
+  { value: "450+", label: "Team Members" },
+  { value: "950+", label: "Happy Clients" },
 ];
 
 const HOURS = {
@@ -149,11 +150,15 @@ function ContactCard({ icon: Icon, title, value, href }) {
 }
 
 export default function Contact() {
+  // Arriving from a service card (/contact-us?service=...) pre-fills the enquiry.
+  const [params] = useSearchParams();
+  const service = params.get("service");
+
   const [form, setForm] = useState({
     name: "",
     email: "",
     phone: "",
-    message: "",
+    message: service ? `Hi, I'm interested in your ${service}. ` : "",
   });
 
   const [submitted, setSubmitted] = useState(false);
@@ -185,7 +190,7 @@ export default function Contact() {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
     "name": "eMark Setu",
-    "image": "https://emarksetu.com/logo.webp",
+    "image": "https://emarksetu.com/logo.png",
     "telephone": "+917984075400",
     "email": "info@emarksetu.com",
     "address": {
@@ -326,14 +331,14 @@ export default function Contact() {
       </section>
 
       {/* ================= FORM + MAP ================= */}
-      <section className="bg-sky-100 py-16 sm:py-20">
+      <section id="inquiry" className="scroll-mt-20 bg-sky-100 py-16 sm:py-20">
         <Container>
           <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
 
             {/* FORM CARD */}
             <Reveal>
               <div className="rounded-3xl bg-white p-6 shadow-card sm:p-8">
-                <Eyebrow>Send Us A Message</Eyebrow>
+                <Eyebrow>{service ? "Service Enquiry" : "Send Us A Message"}</Eyebrow>
 
                 <h2 className="mt-4 font-display text-2xl font-bold text-navy-900 sm:text-3xl">
                   Let's grow your{" "}
@@ -394,6 +399,8 @@ export default function Contact() {
 
                         <input
                           name="phone"
+                          type="tel"
+                          inputMode="tel"
                           value={form.phone}
                           onChange={onChange}
                           placeholder="Phone Number"

@@ -1,12 +1,13 @@
 import { Link } from "react-router-dom";
-import { FiTrendingUp, FiPhone, FiMail, FiMapPin, FiSend } from "react-icons/fi";
+import { FiPhone, FiMail, FiMapPin, FiSend } from "react-icons/fi";
 import { FaFacebookF, FaInstagram, FaLinkedinIn, FaTwitter } from "react-icons/fa";
 import { Container, PrimaryButton, Reveal } from "./ui";
+import logo from "../assets/image/logo.webp";
 
 const quickLinks = [
   { label: "Home", href: "/" },
   { label: "About Us", href: "/aboutus" },
-  { label: "Pricing", href: "/pricing" },
+  { label: "Services", href: "/pricing" },
   { label: "Integrations", href: "/integrations" },
   { label: "Contact", href: "/contact-us" },
 ];
@@ -41,7 +42,7 @@ export default function Footer() {
               scheduling a call directly with them.
             </p>
             <div className="relative mt-7 flex justify-center">
-              <PrimaryButton href="/contact-us">Get Started</PrimaryButton>
+              <PrimaryButton href="/contact-us#inquiry">Get Started</PrimaryButton>
             </div>
             <FiSend className="pointer-events-none absolute right-10 top-10 hidden text-blue-400/40 sm:block" size={28} />
           </div>
@@ -49,11 +50,8 @@ export default function Footer() {
 
         <div className="grid gap-12 py-16 sm:grid-cols-2 lg:grid-cols-[1.3fr_1fr_1fr_1.1fr]">
           <div>
-            <Link to="/" className="flex items-center gap-2 font-display text-xl font-bold text-white">
-              <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-600 text-white">
-                <FiTrendingUp size={17} />
-              </span>
-              eMark<span className="text-blue-400">Setu</span>
+            <Link to="/" aria-label="eMark Setu home" className="inline-flex rounded-xl bg-white px-3.5 py-2">
+              <img src={logo} alt="eMark Setu" loading="lazy" className="h-8 w-auto object-contain" />
             </Link>
             <p className="mt-4 max-w-xs text-[13.5px] leading-relaxed text-slate-400">
               We Build, Manage, Scale &amp; Create Brands — a full-service
@@ -103,10 +101,12 @@ export default function Footer() {
             <p className="text-[13px] font-bold uppercase tracking-wide text-white">Contact</p>
             <ul className="mt-5 space-y-3.5">
               <li className="flex items-center gap-2.5 text-[13.5px] text-slate-400">
-                <FiPhone className="flex-none text-blue-400" size={14} /> +91 79840 75400
+                <FiPhone className="flex-none text-blue-400" size={14} />
+                <a href="tel:+917984075400" className="transition-colors hover:text-blue-400">+91 79840 75400</a>
               </li>
               <li className="flex items-center gap-2.5 text-[13.5px] text-slate-400">
-                <FiMail className="flex-none text-blue-400" size={14} /> info@emarksetu.com
+                <FiMail className="flex-none text-blue-400" size={14} />
+                <a href="mailto:info@emarksetu.com" className="transition-colors hover:text-blue-400">info@emarksetu.com</a>
               </li>
               <li className="flex items-start gap-2.5 text-[13.5px] text-slate-400">
                 <FiMapPin className="mt-0.5 flex-none text-blue-400" size={14} />

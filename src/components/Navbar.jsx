@@ -1,22 +1,22 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { FiMenu, FiX } from "react-icons/fi";
-import { href, Link, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Container, PrimaryButton } from "./ui";
-import logo from "../assets/image/logo.webp";
+import logo from "../assets/logos/logo.webp";
 
 const links = [
   { label: "Home", href: "/" },
   { label: "About Us", href: "/aboutus" },
   { label: "Services", href: "/pricing" },
   { label: "Contact", href: "/contact-us" },
-  {label: "integration", href: "/integrations"}
+  { label: "Integrations", href: "/integrations" },
 ];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
-  const { pathname } = useLocation();
+  const { pathname, hash } = useLocation();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -31,10 +31,19 @@ export default function Navbar() {
     return () => (document.body.style.overflow = "");
   }, [open]);
 
+  // On navigation: jump to #section if the link has one (e.g. /contact-us#inquiry),
+  // otherwise start at the top of the new page.
   useEffect(() => {
     setOpen(false);
-    window.scrollTo(0, 0);
-  }, [pathname]);
+    if (!hash) {
+      window.scrollTo(0, 0);
+      return;
+    }
+    const t = setTimeout(() => {
+      document.getElementById(hash.slice(1))?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 80);
+    return () => clearTimeout(t);
+  }, [pathname, hash]);
 
   const isActive = (href) => pathname === href;
 
@@ -48,14 +57,16 @@ export default function Navbar() {
     >
       <Container>
         <nav className="flex h-[76px] items-center justify-between">
-          <Link to="/" className="flex items-center gap-2.5">
-            <span className="flex items-center rounded-full bg-white/10 px-3 py-1.5 backdrop-blur-md">
-  <img 
-    src={logo} 
-    alt="eMark Setu" 
-    className="h-7 w-auto object-contain brightness-125 contrast-125" 
-  />
-</span>
+          <Link to="/" aria-label="eMark Setu home" className="flex items-center">
+            <span
+              className={`flex items-center rounded-xl bg-white px-3 py-1.5 transition-shadow duration-300 ${
+                scrolled || open
+                  ? "shadow-none ring-1 ring-navy-900/[0.06]"
+                  : "shadow-[0_8px_24px_-8px_rgba(0,0,0,0.45)]"
+              }`}
+            >
+              <img src={logo} alt="eMark Setu" className="h-7 w-auto object-contain" />
+            </span>
           </Link>
 
           <ul className="hidden items-center gap-9 md:flex">

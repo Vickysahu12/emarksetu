@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import { motion } from "framer-motion";
+import React, { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
+import { motion, animate, useInView } from "framer-motion";
 import { FaCheckDouble } from "react-icons/fa";
 import {
   FiUsers,
@@ -17,16 +18,19 @@ import {
 } from "react-icons/fi";
 
 import SEO from "../components/SEO";
-import hero from "../assets/image/bg-image.webp";
+import hero from "../assets/image/hero-bg.webp";
 import { Container, Eyebrow, PrimaryButton, Reveal } from "../components/ui";
 
 // Marketplace Logo Fallback Component
-const MarketplaceLogo = ({ name, domain }) => {
+const MarketplaceLogo = ({ name, domain, slug }) => {
   const [hasError, setHasError] = useState(false);
   const logoUrl = `https://www.google.com/s2/favicons?domain=${domain}&sz=64`;
 
   return (
-    <div className="flex items-center gap-2.5 rounded-xl border border-slate-200 bg-white px-3.5 py-2 shadow-sm hover:border-blue-300 hover:shadow-md transition-all">
+    <Link
+      to={`/integrations?brand=${slug}`}
+      className="flex items-center gap-2.5 rounded-xl border border-slate-200 bg-white px-3.5 py-2 shadow-sm transition-all hover:-translate-y-0.5 hover:border-blue-300 hover:shadow-md"
+    >
       {!hasError ? (
         <img
           src={logoUrl}
@@ -40,17 +44,21 @@ const MarketplaceLogo = ({ name, domain }) => {
         </span>
       )}
       <span className="text-[13px] font-semibold text-slate-800">{name}</span>
-    </div>
+    </Link>
   );
 };
 
 const marketplaces = [
-  { name: "Amazon", domain: "amazon.in" },
-  { name: "Flipkart", domain: "flipkart.com" },
-  { name: "Myntra", domain: "myntra.com" },
-  { name: "Nykaa", domain: "nykaa.com" },
-  { name: "eBay", domain: "ebay.com" },
-  { name: "Ajio", domain: "ajio.com" },
+  { name: "Amazon", domain: "amazon.in", slug: "amazon-in" },
+  { name: "Flipkart", domain: "flipkart.com", slug: "flipkart" },
+  { name: "Myntra", domain: "myntra.com", slug: "myntra" },
+  { name: "Meesho", domain: "meesho.com", slug: "meesho" },
+  { name: "Shopsy", domain: "shopsy.in", slug: "shopsy" },
+  { name: "Nykaa", domain: "nykaa.com", slug: "nykaa" },
+  { name: "Ajio", domain: "ajio.com", slug: "ajio" },
+  { name: "JioMart", domain: "jiomart.com", slug: "jiomart" },
+  { name: "Snapdeal", domain: "snapdeal.com", slug: "snapdeal" },
+  { name: "eBay", domain: "ebay.com", slug: "ebay" },
 ];
 
 const encompassing = [
@@ -136,13 +144,190 @@ const storyCardVariant = {
   },
 };
 
+function CountUp({ to, suffix = "" }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-40px" });
+  const [n, setN] = useState(0);
+
+  useEffect(() => {
+    if (!inView) return;
+    const controls = animate(0, to, {
+      duration: 1.6,
+      ease: [0.22, 1, 0.36, 1],
+      onUpdate: (v) => setN(Math.round(v)),
+    });
+    return () => controls.stop();
+  }, [inView, to]);
+
+  return (
+    <span ref={ref}>
+      {n}
+      {suffix}
+    </span>
+  );
+}
+
+const cardHover = { y: -6, scale: 1.02 };
+const cardSpring = { type: "spring", stiffness: 300, damping: 20 };
+
+// Each tile carries a small idle animation tied to what it says:
+// team avatars pop in, steam rises off the coffee, the chart keeps moving,
+// and a dot orbits the 360° ring.
+function StoryGrid() {
+  return (
+    <motion.div
+      variants={storyGridContainer}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-50px" }}
+      className="grid grid-cols-2 gap-3 sm:gap-4"
+    >
+      <motion.div
+        variants={storyCardVariant}
+        whileHover={cardHover}
+        transition={cardSpring}
+        className="relative flex aspect-square flex-col justify-between overflow-hidden rounded-3xl bg-blue-600 p-5 shadow-lg shadow-blue-600/20 sm:p-6"
+      >
+        <motion.div
+          aria-hidden="true"
+          animate={{ x: ["-120%", "320%"] }}
+          transition={{ duration: 3.5, repeat: Infinity, repeatDelay: 2.5, ease: "easeInOut" }}
+          className="pointer-events-none absolute inset-y-0 left-0 w-1/3 -skew-x-12 bg-gradient-to-r from-transparent via-white/15 to-transparent"
+        />
+        <div className="flex -space-x-2.5">
+          {["KP", "AS", "RM", "NJ"].map((ini, i) => (
+            <motion.span
+              key={ini}
+              initial={{ scale: 0, opacity: 0 }}
+              whileInView={{ scale: 1, opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ type: "spring", stiffness: 380, damping: 16, delay: 0.3 + i * 0.12 }}
+              className="flex h-9 w-9 items-center justify-center rounded-full border-2 border-blue-600 bg-white text-[10px] font-bold text-blue-600 sm:h-10 sm:w-10"
+            >
+              {ini}
+            </motion.span>
+          ))}
+          <motion.span
+            initial={{ scale: 0 }}
+            whileInView={{ scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ type: "spring", stiffness: 380, damping: 16, delay: 0.8 }}
+            className="flex h-9 w-9 items-center justify-center rounded-full border-2 border-blue-600 bg-blue-500 text-white sm:h-10 sm:w-10"
+          >
+            <FiUsers size={14} />
+          </motion.span>
+        </div>
+        <div className="relative">
+          <p className="font-display text-4xl font-bold text-white">
+            <CountUp to={450} suffix="+" />
+          </p>
+          <p className="mt-1 text-[12px] font-medium text-blue-100">People building better solutions</p>
+        </div>
+      </motion.div>
+
+      <motion.div
+        variants={storyCardVariant}
+        whileHover={cardHover}
+        transition={cardSpring}
+        className="relative flex aspect-square flex-col justify-between overflow-hidden rounded-3xl bg-slate-900 p-5 shadow-lg sm:p-6"
+      >
+        <div className="relative h-12 w-12">
+          {[0, 1, 2].map((i) => (
+            <motion.span
+              key={i}
+              aria-hidden="true"
+              className="absolute bottom-9 h-4 w-[3px] rounded-full bg-blue-300/70"
+              style={{ left: 9 + i * 7 }}
+              animate={{ y: [0, -14], opacity: [0, 0.9, 0] }}
+              transition={{ duration: 2.2, delay: i * 0.45, repeat: Infinity, ease: "easeOut" }}
+            />
+          ))}
+          <FiCoffee size={36} className="absolute bottom-0 left-0 text-blue-400" />
+        </div>
+        {[
+          ["right-6 top-6", 0],
+          ["right-12 top-14", 0.8],
+          ["right-5 top-20", 1.6],
+        ].map(([pos, delay]) => (
+          <motion.span
+            key={pos}
+            aria-hidden="true"
+            className={`absolute ${pos} h-1.5 w-1.5 rounded-full bg-gold-400`}
+            animate={{ scale: [0, 1, 0], opacity: [0, 1, 0] }}
+            transition={{ duration: 2.4, delay, repeat: Infinity, ease: "easeInOut" }}
+          />
+        ))}
+        <div>
+          <p className="font-display text-2xl font-bold text-white">Young</p>
+          <p className="mt-1 text-[12px] text-slate-400">Curious minds. Big ideas.</p>
+        </div>
+      </motion.div>
+
+      <motion.div
+        variants={storyCardVariant}
+        whileHover={cardHover}
+        transition={cardSpring}
+        className="flex aspect-square flex-col justify-between rounded-3xl border border-slate-200 bg-sky-50/70 p-5 shadow-sm sm:p-6"
+      >
+        <div className="flex h-12 items-end gap-1.5" aria-hidden="true">
+          {[0.45, 0.7, 0.55, 0.85, 1].map((h, i) => (
+            <motion.span
+              key={i}
+              className="h-full w-2.5 origin-bottom rounded-t-sm bg-blue-600"
+              style={{ opacity: 0.45 + i * 0.13 }}
+              initial={{ scaleY: 0.1 }}
+              animate={{ scaleY: [h * 0.6, h, h * 0.8] }}
+              transition={{ duration: 2.4, delay: i * 0.15, repeat: Infinity, repeatType: "mirror", ease: "easeInOut" }}
+            />
+          ))}
+        </div>
+        <div>
+          <p className="font-display text-3xl font-bold text-slate-900">
+            <CountUp to={950} suffix="+" />
+          </p>
+          <p className="mt-1 text-[12px] font-medium text-slate-600">Businesses supported</p>
+        </div>
+      </motion.div>
+
+      <motion.div
+        variants={storyCardVariant}
+        whileHover={cardHover}
+        transition={cardSpring}
+        className="flex aspect-square flex-col justify-between rounded-3xl border border-blue-200 bg-blue-50/60 p-5 shadow-sm sm:p-6"
+      >
+        <div className="relative flex h-14 w-14 items-center justify-center">
+          <motion.div
+            aria-hidden="true"
+            className="absolute inset-0 rounded-full border-2 border-dashed border-blue-300"
+            animate={{ rotate: 360 }}
+            transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
+          />
+          <motion.div
+            aria-hidden="true"
+            className="absolute inset-0"
+            animate={{ rotate: 360 }}
+            transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+          >
+            <span className="absolute -top-1 left-1/2 h-2.5 w-2.5 -translate-x-1/2 rounded-full bg-gold-500 shadow-[0_0_0_3px_rgba(245,166,35,0.2)]" />
+          </motion.div>
+          <FiMonitor size={22} className="text-blue-600" />
+        </div>
+        <div>
+          <p className="font-display text-2xl font-bold text-slate-900">360°</p>
+          <p className="mt-1 text-[12px] font-medium text-slate-600">End-to-end ecommerce solutions</p>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
 export default function AboutUs() {
   const schemaData = {
     "@context": "https://schema.org",
     "@type": "Organization",
     "name": "eMark Setu",
     "url": "https://emarksetu.com",
-    "logo": "https://emarksetu.com/logo.webp",
+    "logo": "https://emarksetu.com/logo.png",
     "founder": {
       "@type": "Person",
       "name": "Karan Manishkumar Pathak"
@@ -160,7 +345,7 @@ export default function AboutUs() {
         title="About Us — E-Commerce Growth Agency"
         description="Learn about eMark Setu, founded by Karan Manishkumar Pathak. We provide 360-degree e-commerce solutions to launch, manage, and scale brands online."
         keywords="eMark Setu About, E-commerce Agency Surat, Karan Pathak eMark Setu, Amazon Partner Agency India"
-        canonicalUrl="https://emarksetu.com/about-us"
+        canonicalUrl="https://emarksetu.com/aboutus"
       />
 
       <script
@@ -174,7 +359,7 @@ export default function AboutUs() {
           className="relative overflow-hidden bg-slate-900 bg-cover bg-center bg-no-repeat pb-28 pt-[140px] sm:pb-32"
           style={{ backgroundImage: hero ? `url(${hero})` : undefined }}
         >
-          <div className="pointer-events-none absolute inset-0 bg-slate-950/85 backdrop-blur-[2px]" />
+          <div className="pointer-events-none absolute inset-0 bg-navy-950/50" />
           <div className="pointer-events-none absolute -right-32 -top-32 h-[520px] w-[520px] rounded-full bg-blue-600/20 blur-[140px]" />
           <div className="pointer-events-none absolute -bottom-40 left-[-10%] h-[420px] w-[420px] rounded-full bg-sky-500/10 blur-[130px]" />
 
@@ -200,9 +385,8 @@ export default function AboutUs() {
                 </p>
 
                 <div className="mt-8 flex flex-wrap justify-center gap-4">
-                  <PrimaryButton href="/contact-us">
+                  <PrimaryButton href="/contact-us#inquiry">
                     Let's Work Together
-                    <FiArrowRight size={15} />
                   </PrimaryButton>
 
                   <a
@@ -271,103 +455,20 @@ export default function AboutUs() {
 
                 <div className="mt-8 flex flex-wrap gap-2.5 max-w-lg">
                   {marketplaces.map((item) => (
-                    <MarketplaceLogo
-                      key={item.name}
-                      name={item.name}
-                      domain={item.domain}
-                    />
+                    <MarketplaceLogo key={item.slug} {...item} />
                   ))}
+                  <Link
+                    to="/integrations"
+                    className="flex items-center gap-1.5 rounded-xl bg-blue-600 px-3.5 py-2 text-[13px] font-semibold text-white shadow-sm transition-all hover:-translate-y-0.5 hover:bg-blue-500"
+                  >
+                    100+ more
+                    <FiArrowRight size={13} />
+                  </Link>
                 </div>
               </Reveal>
 
               {/* ANIMATED GRID CARDS */}
-              <motion.div
-                variants={storyGridContainer}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: "-50px" }}
-                className="grid grid-cols-2 gap-4"
-              >
-                <motion.div
-                  variants={storyCardVariant}
-                  whileHover={{ y: -6, scale: 1.02 }}
-                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                  className="relative flex aspect-square flex-col justify-between overflow-hidden rounded-3xl bg-blue-600 p-6 shadow-lg shadow-blue-600/10"
-                >
-                  <motion.div
-                    whileHover={{ scale: 1.15, rotate: 5 }}
-                    transition={{ type: "spring", stiffness: 400 }}
-                  >
-                    <FiUsers size={36} className="text-white" />
-                  </motion.div>
-                  <div>
-                    <p className="text-4xl font-black text-white">15+</p>
-                    <p className="mt-1 text-[12px] font-medium text-blue-100">
-                      People building better solutions
-                    </p>
-                  </div>
-                </motion.div>
-
-                <motion.div
-                  variants={storyCardVariant}
-                  whileHover={{ y: -6, scale: 1.02 }}
-                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                  className="flex aspect-square flex-col justify-between rounded-3xl bg-slate-900 p-6 shadow-lg"
-                >
-                  <motion.div
-                    whileHover={{ scale: 1.15, rotate: -5 }}
-                    transition={{ type: "spring", stiffness: 400 }}
-                  >
-                    <FiCoffee size={36} className="text-blue-400" />
-                  </motion.div>
-                  <div>
-                    <p className="text-2xl font-bold text-white">Young</p>
-                    <p className="mt-1 text-[12px] text-slate-400">
-                      Curious minds. Big ideas.
-                    </p>
-                  </div>
-                </motion.div>
-
-                <motion.div
-                  variants={storyCardVariant}
-                  whileHover={{ y: -6, scale: 1.02 }}
-                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                  className="flex aspect-square flex-col justify-between rounded-3xl border border-slate-200 bg-sky-50/70 p-6 shadow-sm"
-                >
-                  <motion.div
-                    whileHover={{ scale: 1.15, rotate: 5 }}
-                    transition={{ type: "spring", stiffness: 400 }}
-                  >
-                    <FiBarChart2 size={36} className="text-blue-600" />
-                  </motion.div>
-                  <div>
-                    <p className="text-3xl font-black text-slate-900">250+</p>
-                    <p className="mt-1 text-[12px] font-medium text-slate-600">
-                      Businesses supported
-                    </p>
-                  </div>
-                </motion.div>
-
-                <motion.div
-                  variants={storyCardVariant}
-                  whileHover={{ y: -6, scale: 1.02 }}
-                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                  className="flex aspect-square flex-col justify-between rounded-3xl border border-blue-200 bg-blue-50/60 p-6 shadow-sm"
-                >
-                  <motion.div
-                    whileHover={{ scale: 1.15, rotate: -5 }}
-                    transition={{ type: "spring", stiffness: 400 }}
-                  >
-                    <FiMonitor size={36} className="text-blue-600" />
-                  </motion.div>
-                  <div>
-                    <p className="text-2xl font-bold text-slate-900">360°</p>
-                    <p className="mt-1 text-[12px] font-medium text-slate-600">
-                      End-to-end ecommerce solutions
-                    </p>
-                  </div>
-                </motion.div>
-              </motion.div>
+              <StoryGrid />
             </div>
           </Container>
         </section>
@@ -480,13 +581,6 @@ export default function AboutUs() {
                       </p>
                     </div>
 
-                    <div className="mt-6 flex items-center gap-2 text-[12px] font-bold text-blue-600">
-                      <span>Learn More</span>
-                      <FiArrowRight
-                        size={13}
-                        className="transition-transform group-hover:translate-x-1"
-                      />
-                    </div>
                   </div>
                 </Reveal>
               ))}
@@ -517,9 +611,8 @@ export default function AboutUs() {
                     </p>
                   </div>
 
-                  <PrimaryButton href="/contact-us">
+                  <PrimaryButton href="/contact-us#inquiry">
                     Talk To Us
-                    <FiArrowRight size={15} />
                   </PrimaryButton>
                 </div>
               </div>
