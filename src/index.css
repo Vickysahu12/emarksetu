@@ -56,3 +56,11 @@ body {
 .font-display {
   font-family: var(--font-display);
 }
+
+/* horizontal chip rows that scroll on mobile without a visible scrollbar */
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
